@@ -1,8 +1,9 @@
 import React from 'react';
 
-import App from './pages/App.jsx';
-import Hello from './pages/Hello.jsx'
-import Bye from './pages/Adios.jsx'
+import App from './pages/base/App.jsx';
+import Hello from './pages/base/Hello.jsx'
+import Bye from './pages/base/Adios.jsx'
+
 import { BrowserRouter, Route } from 'react-router-dom';
 
 let routing = (

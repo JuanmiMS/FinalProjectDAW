@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import './pages/index.css';
+import './pages/base/index.css';
 import * as serviceWorker from './serviceWorker';
 import routing from './routes'
 
