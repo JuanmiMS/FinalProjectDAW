@@ -4,14 +4,15 @@ const app = express();
 const mongoose = require('mongoose');
 var cors = require('cors');
 const bodyParser = require('body-parser');
-const logger = require('morgan');
+
+const todoRoutes = express.Router();
 const Data = require('./data');
 
 const API_PORT = 9000;
 app.use(cors());
-const router = express.Router();
+app.use(bodyParser.json())
 
-const dbRoute = "mongodb://localhost:27017/jelotest";
+const dbRoute = "mongodb://localhost:27017/mypanel";
 
 // connects our back end code with the database
 mongoose.connect(
@@ -19,7 +20,7 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
-let db = mongoose.connection;
+const db = mongoose.connection;
 
 db.once("open", () => console.log("connected to the database"));
 
@@ -27,64 +28,39 @@ db.once("open", () => console.log("connected to the database"));
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// (optional) only made for logging and
-// bodyParser, parses the request body to be a readable json format
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(logger("dev"));
-
-// this is our get method
-// this method fetches all available data in our database
-router.get("/getData", (req, res) => {
-  Data.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-});
-
-// this is our update method
-// this method overwrites existing data in our database
-router.post("/updateData", (req, res) => {
-  const { id, update } = req.body;
-  Data.findOneAndUpdate(id, update, err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-// this is our delete method
-// this method removes existing data in our database
-router.delete("/deleteData", (req, res) => {
-  const { id } = req.body;
-  Data.findOneAndDelete(id, err => {
-    if (err) return res.send(err);
-    return res.json({ success: true });
-  });
-});
-
-// this is our create methid
-// this method adds new data in our database
-router.post("/putData", (req, res) => {
-  let data = new Data();
-
-  const { id, message } = req.body;
-
-  if ((!id && id !== 0) || !message) {
-    return res.json({
-      success: false,
-      error: "INVALID INPUTS"
-    });
-  }
-  data.message = message;
-  data.id = id;
-  data.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-
 app.use(express.static(path.join(__dirname, '../build')));
+
+todoRoutes.route('/').get(function (req, res) {
+  Data.find(function (err, datas) {
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.json(datas)
+    }
+  })
+})
+
+todoRoutes.route('/:id').get(function(req, res) {
+  let id = req.params.id
+  Data.findById(id, function(err, datas){
+    res.json(datas)
+  })
+})
+
+todoRoutes.route('/add').post(function (req, res) {
+  let data = new Data(req.body)
+  data.save().then(data => {
+    res.status(200).json({'todo': 'datos añadidos correctamente'})
+  }).catch(err => {
+    res.status(400).send('error añadiendo datos')
+  })
+})
+
+todoRoutes.route
+
+
+app.use('/api', todoRoutes);
 
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));

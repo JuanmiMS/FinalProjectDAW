@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom';
 
-
 import GoogleLogin from 'react-google-login';
-import { GoogleLogout } from 'react-google-login';
 
 class Login extends Component {
 
@@ -18,15 +16,15 @@ class Login extends Component {
   render() {
 
     if (this.state.redirect) {
-      return (<Redirect to={'/home'}/>)
-  }
+      // return (<Redirect to={'/home'}/>)
+    }
 
     const responseGoogle = (response) => {
       console.log(response);
+      // axios.post("http://localhost:9000/api/putData", {
+      //   message: "Hola que tal"
+      // });
       this.setState({...this.state, redirect: true})
-    }
-    const logout = (response) => {
-      console.log(response);
     }
 
     return (
@@ -38,14 +36,6 @@ class Login extends Component {
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
           />
-          
-
-          <GoogleLogout
-            buttonText="Logout"
-            onLogoutSuccess={logout}
-          >
-          </GoogleLogout>
-
       </div>
     );
   }
