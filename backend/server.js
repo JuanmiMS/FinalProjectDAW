@@ -12,7 +12,7 @@ const API_PORT = 9000;
 app.use(cors());
 app.use(bodyParser.json())
 
-const dbRoute = "mongodb://localhost:27017/mypanel";
+const dbRoute = "mongodb://164.132.41.42:27017/mypanel";
 
 // connects our back end code with the database
 mongoose.connect(
