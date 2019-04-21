@@ -1,16 +1,14 @@
 import React from 'react';
-
-import App from './pages/App.jsx';
-import Hello from './pages/Hello.jsx'
-import Bye from './pages/Adios.jsx'
 import { BrowserRouter, Route } from 'react-router-dom';
+
+import Login from './pages/Login/login';
+import Home from './pages/Home/home';
 
 let routing = (
     <BrowserRouter>
         <switch>
-            <Route exact path="/" component={App} />
-            <Route path="/hello" component={Hello} />
-            <Route path="/adios" component={Bye} />
+            <Route exact path="/" component={Login} />
+            <Route path="/home" component={Home} />
         </switch>
     </BrowserRouter>
 )
