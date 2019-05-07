@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {Redirect} from 'react-router-dom';
 
 import GoogleLogin from 'react-google-login';
 
@@ -29,7 +28,7 @@ class Login extends Component {
 
     return (
       <div className="App">
-        <h1>LOGIN WITH  GOOGLE</h1>
+        <h1>LOGIN WITH  GOOGLE patata</h1>
           <GoogleLogin
             clientId="873955508498-k84pufrfv8gj39eqmkcvko9gud36gkql.apps.googleusercontent.com"
             buttonText="LOGIN WITH GOOGLE"
