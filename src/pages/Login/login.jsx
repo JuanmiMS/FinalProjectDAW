@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-
 import GoogleLogin from 'react-google-login';
+import axios from 'axios'
+// const config = require('config')
+
 
 class Login extends Component {
 
@@ -20,10 +22,8 @@ class Login extends Component {
 
     const responseGoogle = (response) => {
       console.log(response);
-      // axios.post("http://localhost:9000/api/putData", {
-      //   message: "Hola que tal"
-      // });
-      this.setState({...this.state, redirect: true})
+      // axios.post("localhost:9000/api/users/", response);
+      // this.setState({...this.state, redirect: true})
     }
 
     return (

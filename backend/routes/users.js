@@ -9,6 +9,8 @@ const User = require('../models/User')
 router.post('/', (req, res) => {
    const {name, email} = req.body
 
+    console.log('req.body :', req.body);
+
    if(!name){
        return res.status(400).json({msg: "Pon un nombre"})
    }
@@ -24,9 +26,15 @@ router.post('/', (req, res) => {
            })
            
            newUser.save().then(user => {
-               
+               nuevoUser = {
+                id: user.id, 
+                name: user.name, 
+                email: user.email,
+                otro : "otro"
+            }
+
             jwt.sign(
-                {id: user.id}, 
+                nuevoUser, 
                 config.get('jwtSecret'),
                 { expiresIn: 3600 },
                 (err, token) => {
