@@ -4,12 +4,13 @@ const app = express();
 const mongoose = require('mongoose');
 var cors = require('cors');
 const bodyParser = require('body-parser');
+const config = require('config')
 
 const API_PORT = 9000;
 app.use(cors());
 app.use(bodyParser.json())
 
-const dbRoute = "mongodb://localhost:27017/mypanel";
+const dbRoute = config.get('mongoURI')
 
 // connects our back end code with the database
 mongoose.connect(
