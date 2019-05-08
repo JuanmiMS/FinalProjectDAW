@@ -10,6 +10,7 @@ router.post('/', (req, res) => {
 //    const {name, email} = req.body
 
     // console.log('req.body :', req.body);
+    const email = "test"
 
 //    if(!name){
 //        return res.status(400).json({msg: "Pon un nombre"})
