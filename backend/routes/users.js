@@ -9,8 +9,6 @@ const User = require('../models/User')
 router.post('/', (req, res) => {
 //    const {name, email} = req.body
 
-    const email = "as"
-
     // console.log('req.body :', req.body);
 
 //    if(!name){
@@ -18,10 +16,9 @@ router.post('/', (req, res) => {
 //    }
 
 
-
    User.findOne({email}).then(
        user=>{
-            console.log('user', user)
+
            //Si el usuario ya ha sido registrado previamente
            if(user) return res.status(400).json({msg: 'User already exists'})
 

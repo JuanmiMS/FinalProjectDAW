@@ -22,7 +22,13 @@ class Login extends Component {
 
     const responseGoogle = (response) => {
       console.log(response);
-      axios.post("http://localhost:9000/api/users/", response);
+      axios.post("http://localhost:9000/api/users/", response)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       // this.setState({...this.state, redirect: true})
     }
 
@@ -30,7 +36,7 @@ class Login extends Component {
       <div className="App">
         <h1>LOGIN WITH  GOOGLE patata</h1>
           <GoogleLogin
-            clientId="873955508498-k84pufrfv8gj39eqmkcvko9gud36gkql.apps.googleusercontent.com"
+            clientId="-873955508498-k84pufrfv8gj39eqmkcvko9gud36gkql.apps.googleusercontent.com"
             buttonText="LOGIN WITH GOOGLE"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
