@@ -22,7 +22,7 @@ class Login extends Component {
 
     const responseGoogle = (response) => {
       console.log(response);
-      // axios.post("localhost:9000/api/users/", response);
+      axios.post("http://localhost:9000/api/users/", response);
       // this.setState({...this.state, redirect: true})
     }
 

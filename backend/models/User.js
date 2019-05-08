@@ -4,11 +4,15 @@ const Schema = mongoose.Schema
 const UserSchema = Schema({
     name: {
         type: String,
-        required: true
+        required: false
     },
     email: {
         type: String,
-        required: true
+        required: false
+    },
+    datos: {
+        type: Object,
+        required: false,
     },
     register_Date: {
         type: Date,

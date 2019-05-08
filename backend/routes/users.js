@@ -7,30 +7,39 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
 router.post('/', (req, res) => {
-   const {name, email} = req.body
+//    const {name, email} = req.body
 
-    console.log('req.body :', req.body);
+    const email = "as"
 
-   if(!name){
-       return res.status(400).json({msg: "Pon un nombre"})
-   }
+    // console.log('req.body :', req.body);
+
+//    if(!name){
+//        return res.status(400).json({msg: "Pon un nombre"})
+//    }
+
+
 
    User.findOne({email}).then(
        user=>{
-
+            console.log('user', user)
            //Si el usuario ya ha sido registrado previamente
            if(user) return res.status(400).json({msg: 'User already exists'})
 
            const newUser = new User({
-               name, email
+            id: "asas", 
+            name: "user.name", 
+            email: "user.email",
+            datos : req.body
            })
            
+           console.log('newUser :', newUser);
+
            newUser.save().then(user => {
                nuevoUser = {
                 id: user.id, 
                 name: user.name, 
                 email: user.email,
-                otro : "otro"
+                datos : user.body
             }
 
             jwt.sign(
@@ -44,7 +53,8 @@ router.post('/', (req, res) => {
                         user: {
                             id: user.id,
                             name: user.name,
-                            email: user.email
+                            email: user.email,
+                            datos: user.datos
                         }
                     })
                 }
