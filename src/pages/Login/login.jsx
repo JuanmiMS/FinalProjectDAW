@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import GoogleLogin from 'react-google-login';
 import axios from 'axios'
 import {connect} from 'react-redux'
-import { Redirect } from 'react-router-dom'
 // const config = require('config')
+import { Redirect } from 'react-router-dom'
+
+import addToken from '../../redux/actions/addToken'
 
 
 class Login extends Component {
@@ -24,16 +26,21 @@ class Login extends Component {
         token: response.data.token
       })
       console.log('this.state', this.state)
+      this.props.addToken(response.data.token)
     })
     .catch(function (error) {
       console.log(error);
     });
   }
 
+  componentDidMount(){
+    this.props.addToken(this.state.token)
+  }
+
   render() {
 
     console.log('this.props :', this.props.currentItem);
-    console.log('this.props :', this.props.hola);
+    console.log('this.props :', this.props);
 
     return (
       <div className="App">
@@ -52,11 +59,18 @@ class Login extends Component {
   }
 }
 
+//Devuelve estados
 const mapStateToProps = (state) => {
   return {
-    currentItem : state.currentItem,
-    hola: 1243,
+    currentItem : state.currentItem
   }
 }
 
-export default connect(mapStateToProps)(Login)
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToken,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

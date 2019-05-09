@@ -1,8 +1,6 @@
 const defaultState = 
     {
-        id: 1,
-        title: 'React2',
-        logged: false
+        token: ''
     }
 
 function reducer(state = defaultState, { type, payload }) {
