@@ -2,5 +2,6 @@
     "gId" : "873955508498-k84pufrfv8gj39eqmkcvko9gud36gkql.apps.googleusercontent.com",
     "mongoURI" : "mongodb://localhost:27017/mypanel" ,
     "jwtSecret" : "ReactForPresident",
-    "emailDomain" : "brujula.es2"
+    "logo" : "http://www.iesfbmoll.org/wp-content/uploads/2013/11/Imagen2.png",
+    "emailDomain" : "brujula.es"
 }

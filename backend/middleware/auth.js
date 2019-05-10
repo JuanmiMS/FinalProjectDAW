@@ -1,6 +1,5 @@
 const errors = require('../../config/error')
 const config = require('config')
-const jwt = require('jsonwebtoken')
 
 function auth(req, res, next) {
     const { email } = req.body.profileObj
