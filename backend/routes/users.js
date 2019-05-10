@@ -3,66 +3,67 @@ const router = express.Router();
 const bcrypt = require('bcryptjs')
 const config = require('config')
 const jwt = require('jsonwebtoken')
+const auth = require('../middleware/auth')
 
 const User = require('../models/User')
 
-router.post('/', (req, res) => {
-//    const {name, email} = req.body
+router.post('/', auth, (req, res) => {
+    //    const {name, email} = req.body
 
-    // console.log('req.body :', req.body);
-    const email = "test"
+    // console.log('req.body :', req.body.profileObj);
 
-//    if(!name){
-//        return res.status(400).json({msg: "Pon un nombre"})
-//    }
+    const { googleId, email, name, imageUrl } = req.body.profileObj
 
+    console.log('googleId, email, name, imageUrl', googleId, email, name, imageUrl)
 
-   User.findOne({email}).then(
-       user=>{
+    User.findOne({ email }).then(
+        user => {
 
-           //Si el usuario ya ha sido registrado previamente
-           if(user) return res.status(400).json({msg: 'User already exists'})
+            //Si el usuario ya ha sido registrado previamente
+            // if (user) return res.status(400).json({ msg: 'User already exists' })
 
-           const newUser = new User({
-            id: "asas", 
-            name: "user.name", 
-            email: "user.email",
-            datos : req.body
-           })
-           
-           console.log('newUser :', newUser);
+            const newUser = new User({
+                googleId: googleId,
+                name: name,
+                email: email,
+                imageUrl: imageUrl
+            })
 
-           newUser.save().then(user => {
-               nuevoUser = {
-                id: user.id, 
-                name: user.name, 
-                email: user.email,
-                datos : user.body
-            }
+            let nuevoUser;
 
-            jwt.sign(
-                nuevoUser, 
-                config.get('jwtSecret'),
-                { expiresIn: 3600 },
-                (err, token) => {
-                    if(err) throw err;
-                    res.json({
-                        token,
-                        user: {
-                            id: user.id,
-                            name: user.name,
-                            email: user.email,
-                            datos: user.datos
-                        }
-                    })
+            newUser.save().then(user => {
+                nuevoUser = {
+                    googleId: googleId,
+                    name: name,
+                    email: email,
+                    imageUrl: imageUrl
                 }
-            )
-            
-            
-           })
 
-       }
-   )
+                jwt.sign(
+                    nuevoUser,
+                    config.get('jwtSecret'),
+                    { expiresIn: 3600 },
+                    (err, token) => {
+                        if (err) throw err;
+
+                        //Devuelve por consola la info del usuario
+                        res.json({
+                            token,
+                            user: {
+                                googleId: googleId,
+                                name: name,
+                                email: email,
+                                imageUrl: imageUrl
+                            }
+                        })
+                    }
+                )
+
+
+            })
+
+        }
+    )
 })
 
 module.exports = router

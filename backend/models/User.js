@@ -2,6 +2,10 @@ const mongoose =require('mongoose');
 const Schema = mongoose.Schema
 
 const UserSchema = Schema({
+    googleId: {
+        type: String,
+        required: false
+    },
     name: {
         type: String,
         required: false
@@ -10,8 +14,8 @@ const UserSchema = Schema({
         type: String,
         required: false
     },
-    datos: {
-        type: Object,
+    imageUrl: {
+        type: String,
         required: false,
     },
     register_Date: {
@@ -19,5 +23,7 @@ const UserSchema = Schema({
         default: Date.now
     }
 })
+
+
 
 module.exports = User = mongoose.model('user', UserSchema)
