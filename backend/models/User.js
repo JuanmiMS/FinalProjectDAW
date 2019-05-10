@@ -4,17 +4,21 @@ const Schema = mongoose.Schema
 const UserSchema = Schema({
     googleId: {
         type: String,
-        required: false
+        required: true
     },
     name: {
         type: String,
-        required: false
+        required: true
     },
     email: {
         type: String,
-        required: false
+        required: true
     },
     imageUrl: {
+        type: String,
+        required: true,
+    },
+    room: {
         type: String,
         required: false,
     },

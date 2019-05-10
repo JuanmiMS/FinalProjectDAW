@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { GoogleLogout } from 'react-google-login';
-import { Redirect } from 'react-router-dom';
 
 
 export default class Home extends Component {
@@ -13,33 +11,24 @@ export default class Home extends Component {
   }
 
   componentWillMount(){
-    console.log(localStorage.getItem('SessionToken'))
+    if(!localStorage.getItem('SessionToken') || !localStorage.getItem('roomId')){
+      console.log('se :');
+      this.props.history.push('/')
+    }
   }
 
   logout = () => {
-    this.setState({token : ''})
+    localStorage.removeItem('SessionToken')
+    localStorage.removeItem('roomId')
+    this.props.history.push('/')
   }
 
   render() {
 
-    if (!this.state.token) {
-      return (<Redirect to={'/'}/>)
-    }
-
-    const logout = (response) => {
-      this.setState({ ...this.state, login: false })
-    }
-
     return (
       <div>
         <h1>Home</h1>
-
-<button onClick={this.logout}>Logout</button>
-        {/* <GoogleLogout
-          buttonText="Logout"
-          onLogoutSuccess={logout}
-        >
-        </GoogleLogout> */}
+        <button onClick={this.logout}>Logout</button>
       </div>
     )
   }

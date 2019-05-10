@@ -4,7 +4,6 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import './login.css'
 import addToken from '../../redux/actions/addToken'
-import { Redirect } from 'react-router-dom'
 
 // const config = require('config')
 
@@ -22,9 +21,12 @@ class Login extends Component {
     axios.post("http://localhost:9000/api/users/", response)
       .then((response) => {
         this.setState({
-          token: response.data.token
+          token: response.data.token,
+          room: 'prueba'
         })
         localStorage.setItem('SessionToken', response.data.token);
+        localStorage.setItem('roomId', "prueba");
+        this.props.history.push('/home')
       })
       .catch(error => {
         this.invalidEmail(error.response.data.msg)
@@ -35,28 +37,21 @@ class Login extends Component {
     alert(msg)
   }
 
-  setRedirect = () => {
-    this.setState({
-      redirect: true
-    })
-  }
-
-  renderRedirect = () => {
-    if (this.state.token) {
-      return <Redirect to='/home' />
+  componentDidMount(){
+    if (localStorage.getItem('SessionToken') && localStorage.getItem('roomId'))  {
+      this.props.history.push('/home')
     }
   }
 
   render() {
-
     let isLogged;
     let logo = "http://www.iesfbmoll.org/wp-content/uploads/2013/11/Imagen2.png"
 
-    if (this.state.token) {
+    if (localStorage.getItem('SessionToken') && localStorage.getItem('SessionToken')) {
       isLogged = 
       <div>
         Introduzca el código del aula
-        <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter code" />
+        <input type="text" className="form-control" id="codeInput" placeholder="Enter code" />
       </div>
     }
     else {
@@ -71,7 +66,6 @@ class Login extends Component {
 
     return (
       <div className="container h-100">
-      {this.renderRedirect()}
         <div className="d-flex justify-content-center h-100">
           <div className="user_card">
             <div className="d-flex justify-content-center">
@@ -82,8 +76,6 @@ class Login extends Component {
             <div className="d-flex justify-content-center form_container">
               <div className="App">
                 {isLogged}
-                {/* Token: {this.state.token}<br></br>
-                  {this.props.currentItem.title} */}
               </div>
             </div>
 

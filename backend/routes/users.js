@@ -21,7 +21,8 @@ router.post('/', auth, (req, res) => {
                 googleId: googleId,
                 name: name,
                 email: email,
-                imageUrl: imageUrl
+                imageUrl: imageUrl,
+                room: ''
             })
 
             let nuevoUser;
@@ -31,7 +32,8 @@ router.post('/', auth, (req, res) => {
                     googleId: googleId,
                     name: name,
                     email: email,
-                    imageUrl: imageUrl
+                    imageUrl: imageUrl,
+                    room: ''
                 }
 
                 jwt.sign(
@@ -48,7 +50,8 @@ router.post('/', auth, (req, res) => {
                                 googleId: googleId,
                                 name: name,
                                 email: email,
-                                imageUrl: imageUrl
+                                imageUrl: imageUrl,
+                                room: ''
                             }
                         })
                     }
