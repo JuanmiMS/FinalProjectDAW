@@ -18,18 +18,17 @@ class Login extends Component {
   }
 
   responseGoogle = (response) => {
-    console.log(response);
     axios.post("http://localhost:9000/api/users/", response)
     .then((response) => {
-      console.log(response)     
+      console.log("dasd", response)     
       this.setState({
         token: response.data.token
       })
       console.log('this.state', this.state)
-      this.props.addToken(response.data.token)
+      // this.props.addToken(response.data.token)
     })
     .catch(function (error) {
-      console.log(error);
+      alert(error.response.data.msg)
     });
   }
 
@@ -44,7 +43,7 @@ class Login extends Component {
 
     return (
       <div className="App">
-        <h1>LOGIN WITH  GOOGLE patata</h1>
+        <h1>LOGIN WITH  GOOGLE</h1>
           <GoogleLogin
             clientId="873955508498-k84pufrfv8gj39eqmkcvko9gud36gkql.apps.googleusercontent.com"
             buttonText="LOGIN WITH GOOGLE"

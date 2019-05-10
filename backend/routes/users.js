@@ -8,13 +8,8 @@ const auth = require('../middleware/auth')
 const User = require('../models/User')
 
 router.post('/', auth, (req, res) => {
-    //    const {name, email} = req.body
-
-    // console.log('req.body :', req.body.profileObj);
 
     const { googleId, email, name, imageUrl } = req.body.profileObj
-
-    console.log('googleId, email, name, imageUrl', googleId, email, name, imageUrl)
 
     User.findOne({ email }).then(
         user => {

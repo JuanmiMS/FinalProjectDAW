@@ -1,5 +1,6 @@
 {
     "gId" : "873955508498-k84pufrfv8gj39eqmkcvko9gud36gkql.apps.googleusercontent.com",
     "mongoURI" : "mongodb://localhost:27017/mypanel" ,
-    "jwtSecret" : "ReactForPresident"
+    "jwtSecret" : "ReactForPresident",
+    "emailDomain" : "brujula.es2"
 }
