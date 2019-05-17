@@ -47,4 +47,9 @@ router.post('/', auth, (req, res) => {
     )
 })
 
+router.get("/checkUser", (req, res)=>{
+    console.log('req', req)
+    res.json(req)
+})
+
 module.exports = router

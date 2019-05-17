@@ -4,9 +4,9 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import './login.css'
 import addToken from '../../redux/actions/addToken'
-import config from '../../config/default.json'
+// import config from '../../config/default.json'
 
-// const config = require('config')
+const config = require('config')
 
 class Login extends Component {
 
