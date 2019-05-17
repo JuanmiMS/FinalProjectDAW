@@ -30,7 +30,7 @@ class Login extends Component {
         this.props.history.push('/home')
       })
       .catch(error => {
-        this.invalidEmail(error.response.data.msg)
+        this.invalidEmail("error")
       });
   }
 

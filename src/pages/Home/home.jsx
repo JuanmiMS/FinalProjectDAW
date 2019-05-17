@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GoogleLogout } from 'react-google-login';
 import axios from 'axios';
+import HeaderHOC from '../../components/header';
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
@@ -26,7 +27,7 @@ export default class Home extends Component {
     console.log('this.state :', this.state);
   }
 
-  //TODO
+  //TODO lvl 3
   check = () =>{
     console.log("OK", jwt.verify(localStorage.getItem('SessionToken'), "ReactForPresident"))
 
@@ -47,10 +48,7 @@ export default class Home extends Component {
 
     return (
       <div>
-        <h1>Home</h1>
-        <h2>Hola {this.state.name}</h2>
-        <h2>Sala: {this.state.room}</h2>
-        <img src={this.state.imageUrl} alt="Smiley face" height="42" width="42"></img>
+        <HeaderHOC infoUser={this.state}/>
         {/* <button onClick={this.check}>CheckUserTEST</button> */}
         <GoogleLogout
           buttonText="Logout"

@@ -3,5 +3,5 @@
     "mongoURI" : "mongodb://localhost:27017/mypanel" ,
     "jwtSecret" : "ReactForPresident",
     "logo" : "http://www.iesfbmoll.org/wp-content/uploads/2013/11/Imagen2.png",
-    "emailDomain" : "brujula.es"
+    "emailDomain" : "gmail"
 }
