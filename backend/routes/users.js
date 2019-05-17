@@ -15,51 +15,34 @@ router.post('/', auth, (req, res) => {
         user => {
 
             //Si el usuario ya ha sido registrado previamente
-            // if (user) return res.status(400).json({ msg: 'User already exists' })
+            // if (!user) return res.status(400).json({ msg: 'User already exists' })
 
             const newUser = new User({
                 googleId: googleId,
                 name: name,
                 email: email,
                 imageUrl: imageUrl,
-                room: ''
+                room: 'testRoom'
             })
 
-            let nuevoUser;
+            if(!user){
+                newUser.save()
+                console.log("guardado")
+            }
 
-            newUser.save().then(user => {
-                nuevoUser = {
-                    googleId: googleId,
-                    name: name,
-                    email: email,
-                    imageUrl: imageUrl,
-                    room: ''
+            jwt.sign(
+                JSON.parse(JSON.stringify(newUser)),
+                config.get('jwtSecret'),
+                (err, token) => {
+                    if (err) throw err;
+
+                    //Devuelve por consola la info del usuario
+                    res.json({
+                        token,
+                        newUser
+                    })
                 }
-
-                jwt.sign(
-                    nuevoUser,
-                    config.get('jwtSecret'),
-                    { expiresIn: 3600 },
-                    (err, token) => {
-                        if (err) throw err;
-
-                        //Devuelve por consola la info del usuario
-                        res.json({
-                            token,
-                            user: {
-                                googleId: googleId,
-                                name: name,
-                                email: email,
-                                imageUrl: imageUrl,
-                                room: ''
-                            }
-                        })
-                    }
-                )
-
-
-            })
-
+            )
         }
     )
 })

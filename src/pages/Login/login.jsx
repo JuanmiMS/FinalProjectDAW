@@ -4,6 +4,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import './login.css'
 import addToken from '../../redux/actions/addToken'
+import config from '../../config/default.json'
 
 // const config = require('config')
 
@@ -45,7 +46,7 @@ class Login extends Component {
 
   render() {
     let isLogged;
-    let logo = "http://www.iesfbmoll.org/wp-content/uploads/2013/11/Imagen2.png"
+    let logo = config.logo
 
     if (localStorage.getItem('SessionToken') && localStorage.getItem('SessionToken')) {
       isLogged = 
