@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import './menu.css'
 
 export default class Menu extends Component {
@@ -11,12 +12,8 @@ export default class Menu extends Component {
                 <div className="left-navigation">
                     <ul className="list">
                         <h5><strong>{this.props.infoUser.name}</strong></h5>
-                        <li>Home</li>
-                        <li>Office</li>
-                        <li>School</li>
-                        <li>Gym</li>
-                        <li>Art Class</li>
-                        <li>Hike Club</li>
+                        <Link to="/"><li> Home</li></Link>
+                        <Link to="/addWork"><li> Add Work</li></Link>
                     </ul>
 
                 </div>

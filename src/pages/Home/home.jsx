@@ -56,8 +56,8 @@ export default class Home extends Component {
           
           <div className="col-md-10 col-sm-8 main-content">
             {/* <!--Main content code to be written here -->  */}
-            <h1>FEEDBACK APPRECIATED! :)</h1>
-            <h3>P.S.: For side navbar with dropdown menu, you may refer this snippet: http://bootsnipp.com/user/snippets/kWPoW</h3>
+            <h1>HOME</h1>
+
           </div>
         </div>
       </div>
