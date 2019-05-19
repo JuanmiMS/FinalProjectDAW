@@ -3,7 +3,6 @@ import './header.css'
 
 export default class Header extends Component {
     render() {
-        console.log('this.props.infoUser.imageUrl', this.props.infoUser.imageUrl)
         return (
             <div className="container-fluid">
                 <div className="row">

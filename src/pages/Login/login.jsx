@@ -4,9 +4,8 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import './login.css'
 import addToken from '../../redux/actions/addToken'
-// import config from '../../config/default.json'
+const config = require('../../config/default')
 
-const config = require('config')
 
 class Login extends Component {
 
@@ -21,17 +20,23 @@ class Login extends Component {
   responseGoogle = (response) => {
     axios.post("http://localhost:9000/api/users/", response)
       .then((response) => {
+        console.log('response :', response);
         this.setState({
           token: response.data.token,
-          room: 'prueba'
         })
         localStorage.setItem('SessionToken', response.data.token);
-        localStorage.setItem('roomId', "prueba");
-        this.props.history.push('/home')
+        console.log('response.data.user.room', response.data.user.room)
+        if(response.data.user.room !== ''){
+          this.props.history.push('/home')
+        }
+        else{
+          this.props.history.push('/addRoom')
+        }
+        
       })
-      .catch(error => {
-        this.invalidEmail("error")
-      });
+      // .catch(error => {
+      //   this.invalidEmail("error")
+      // });
   }
 
   invalidEmail = msg => {
@@ -40,8 +45,13 @@ class Login extends Component {
 
   componentDidMount(){
     if (localStorage.getItem('SessionToken') && localStorage.getItem('roomId'))  {
-      this.props.history.push('/home')
+      this.props.history.push('/')
     }
+  }
+
+  logout = () => {
+    localStorage.removeItem('SessionToken')
+    this.props.history.push('/login')
   }
 
   render() {
@@ -53,6 +63,7 @@ class Login extends Component {
       <div>
         Introduzca el código del aula
         <input type="text" className="form-control" id="codeInput" placeholder="Enter code" />
+        <button onClick={this.logout}>Cambiar Cuenta</button>
       </div>
     }
     else {

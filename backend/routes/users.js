@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router();
-const bcrypt = require('bcryptjs')
 const config = require('config')
 const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth')
@@ -13,36 +12,49 @@ router.post('/', auth, (req, res) => {
 
     User.findOne({ email }).then(
         user => {
-
-            //Si el usuario ya ha sido registrado previamente
-            // if (!user) return res.status(400).json({ msg: 'User already exists' })
-
-            const newUser = new User({
-                googleId: googleId,
-                name: name,
-                email: email,
-                imageUrl: imageUrl,
-                room: 'testRoom'
-            })
-
             if(!user){
-                newUser.save()
-                console.log("guardado")
+                const user = new User({
+                    googleId: googleId,
+                    name: name,
+                    email: email,
+                    imageUrl: imageUrl,
+                    room: 'testRoom'
+                })
+                user.save()
+                console.log("Nuevo usuario guardado")
+            
+                jwt.sign(
+                    JSON.parse(JSON.stringify(user)),
+                    config.get('jwtSecret'),
+                    (err, token) => {
+                        if (err) throw err;
+    
+                        //Devuelve por consola la info del usuario
+                        res.json({
+                            token,
+                            user
+                        })
+                    }
+                )
+            }
+            else{
+                console.log("entra")
+                jwt.sign(
+                    JSON.parse(JSON.stringify(user)),
+                    config.get('jwtSecret'),
+                    (err, token) => {
+                        if (err) throw err;
+                        res.json({
+                            token,
+                            user
+                        })
+                    }
+                )
+                console.log("entra222")
+
             }
 
-            jwt.sign(
-                JSON.parse(JSON.stringify(newUser)),
-                config.get('jwtSecret'),
-                (err, token) => {
-                    if (err) throw err;
 
-                    //Devuelve por consola la info del usuario
-                    res.json({
-                        token,
-                        newUser
-                    })
-                }
-            )
         }
     )
 })

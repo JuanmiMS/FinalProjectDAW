@@ -1,36 +1,34 @@
 import React, { Component } from 'react'
-import { GoogleLogout } from 'react-google-login';
 import axios from 'axios';
-import HeaderHOC from '../../components/header';
+import HeaderHOC from '../../components/header/header';
 const jwt = require('jsonwebtoken')
-const config = require('config')
+const config = require('../../config/default')
 
 
 export default class Home extends Component {
 
   constructor(props) {
-   //TODO lvl 1
-    let infoUser = jwt.verify(localStorage.getItem('SessionToken'), "ReactForPresident")
+    let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
     super(props);
-    this.state = {
+    this.state = ({
       token: localStorage.getItem('SessionToken'),
       imageUrl :infoUser.imageUrl,
       room : infoUser.room,
       name : infoUser.name
-    }
+    })
   }
 
   componentWillMount(){
     if(!localStorage.getItem('SessionToken')){
       this.props.history.push('/')
     }
-    console.log('this.state :', this.state);
   }
 
   //TODO lvl 3
   check = () =>{
-    console.log("OK", jwt.verify(localStorage.getItem('SessionToken'), "ReactForPresident"))
+    console.log("OK", jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret))
 
+    //Falla llamada al pedir verificación
     axios.get("http://localhost:9000/api/users/checkUser", {data: "AAAAAAAAAAAAAAAAA"}).then((response) => {
         console.log('response :', response.data);
     })
@@ -40,7 +38,7 @@ export default class Home extends Component {
   logout = () => {
     localStorage.removeItem('SessionToken')
     localStorage.removeItem('roomId')
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
 
 
@@ -49,14 +47,8 @@ export default class Home extends Component {
     return (
       <div>
         <HeaderHOC infoUser={this.state}/>
-        {/* <button onClick={this.check}>CheckUserTEST</button> */}
-        <GoogleLogout
-          buttonText="Logout"
-          onLogoutSuccess={this.logout}
-          onFailure={this.logout}
-          
-        >
-        </GoogleLogout>
+        <button onClick={this.check}>CheckUserTEST</button>
+        <button onClick={this.logout}>logout</button>
       </div>
     )
   }

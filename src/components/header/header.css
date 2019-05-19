@@ -38,6 +38,7 @@
     color: white;
     font-weight: bolder;
     padding-left: 35px;
+    cursor: pointer;
 }.main-content{
-text-align:center;
+    text-align:center;
 }
