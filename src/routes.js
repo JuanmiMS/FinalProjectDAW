@@ -1,18 +1,22 @@
 import React from 'react';
-
-import App from './pages/App.jsx';
-import Hello from './pages/Hello.jsx'
-import Bye from './pages/Adios.jsx'
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import store from './redux/store'
+import Login from './pages/Login/login';
+import Home from './pages/Home/home';
+import Example from './pages/Example/example';
 
 let routing = (
-    <BrowserRouter>
-        <switch>
-            <Route exact path="/" component={App} />
-            <Route path="/hello" component={Hello} />
-            <Route path="/adios" component={Bye} />
-        </switch>
-    </BrowserRouter>
+    <Provider store={store}>
+        <BrowserRouter>
+            <Switch>
+                <Route exact path="/login" component={Login} />
+                {/* <Route exact path="/addCode" component={RoomCode} /> */}
+                <Route path="/" component={Home} />
+                <Route path="/example" component={Example} />
+            </Switch>
+        </BrowserRouter>
+    </Provider>
 )
 
 export default routing
