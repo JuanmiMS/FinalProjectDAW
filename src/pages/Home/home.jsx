@@ -20,7 +20,7 @@ export default class Home extends Component {
 
   componentWillMount() {
     if (!localStorage.getItem('SessionToken')) {
-      this.props.history.push('/')
+      this.props.history.push('/login')
     }
   }
 
@@ -29,7 +29,7 @@ export default class Home extends Component {
     console.log("OK", jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret))
 
     //Falla llamada al pedir verificación
-    axios.get("http://localhost:9000/api/users/checkUser", { data: "AAAAAAAAAAAAAAAAA" }).then((response) => {
+    axios.get("http://juanmi.ovh:9000/api/users/checkUser", { data: "AAAAAAAAAAAAAAAAA" }).then((response) => {
       console.log('response :', response.data);
     })
 
