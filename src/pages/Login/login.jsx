@@ -20,23 +20,21 @@ class Login extends Component {
   responseGoogle = (response) => {
     axios.post("http://localhost:9000/api/users/", response)
       .then((response) => {
-        console.log('response :', response);
         this.setState({
           token: response.data.token,
         })
         localStorage.setItem('SessionToken', response.data.token);
-        console.log('response.data.user.room', response.data.user.room)
         if(response.data.user.room !== ''){
-          this.props.history.push('/home')
+          this.props.history.push('/')
         }
         else{
           this.props.history.push('/addRoom')
         }
         
       })
-      // .catch(error => {
-      //   this.invalidEmail("error")
-      // });
+      .catch(error => {
+        this.invalidEmail("error mail")
+      });
   }
 
   invalidEmail = msg => {
