@@ -11,12 +11,9 @@ export default class Menu extends Component {
                 <div className="left-navigation">
                     <ul className="list">
                         <h5><strong>{this.props.infoUser.name}</strong></h5>
+                        <h5><strong>SALA: {this.props.infoUser.room}</strong></h5>
                         <li>Home</li>
                         <li>Office</li>
-                        <li>School</li>
-                        <li>Gym</li>
-                        <li>Art Class</li>
-                        <li>Hike Club</li>
                     </ul>
 
                 </div>

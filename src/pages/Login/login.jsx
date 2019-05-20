@@ -12,7 +12,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: ''
+      token: '',
+      isLogged : false
     }
 
   }
@@ -52,8 +53,8 @@ class Login extends Component {
   }
 
   addRoom =  () => {
-    let sala = "testRoom"
-    axios.post("http://localhost:9000/api/users/addRoom", {sala: sala, token: localStorage.getItem('SessionToken')})
+    let roomValue = document.getElementById('roomInput').value
+    axios.post("http://localhost:9000/api/users/addRoom", {sala: roomValue, token: localStorage.getItem('SessionToken')})
       .then((response) => {
         console.log('response', response)
         if(response.status === 200){
@@ -76,7 +77,7 @@ class Login extends Component {
       isLogged = 
       <div>
         Introduzca el código del aula
-        <input type="text" className="form-control" id="codeInput" placeholder="Enter code" />
+        <input type="text" className="form-control" id="roomInput" placeholder="Enter code" defaultValue="testRoom"/>
         <button onClick={this.logout} className="btn btn-danger" style={{margin: "5px"}}>Cambiar Cuenta</button>
         <button onClick={this.addRoom} className="btn btn-info" style={{float: "right", margin: "5px"}}>Agregar aula</button>
       </div>

@@ -69,29 +69,41 @@ router.post('/', auth, (req, res) => {
 })
 
 
+//TODO lvl 5 crea/une al usuario a la sala
 router.post('/addRoom', (req, res) => {
 
     const sala = req.body.sala
     const token = req.body.token
-    console.log('sala :', sala);
-    console.log('token :', token);
 
     Room.findOne({ id: sala }).then(
         room => {
+            const decoded = jwt.verify(token, config.jwtSecret)
             if (room) {
-                console.log("Sala encontrada")
+                User.findOneAndUpdate({ id: decoded.id }, { "room": sala }).then(
+                    user => {
+                        decoded.room = room.id
+                        //Actualizamos token                        
+                        jwt.sign(
+                            decoded,
+                            config.get('jwtSecret'),
+                            (err, token) => {
+                                if (err) throw err;
+                                res.status(200).json({ msg: "Usuario agregado a la sala", token: token })
+                            }
+                        )
+                    }
+                )
             }
             //TODO lvl 3, TEMP: si no encuentra la sala la crea
             else {
                 const room = new Room({
-                    id: makeid(5),
+                    id: sala,
                     name: "testRoom",
-                    description: "Sala de prueba",
+                    description: "Sala " + sala,
                     teacher: "Juanmi"
                 })
                 room.save()
 
-                const decoded = jwt.verify(token, config.jwtSecret)
 
                 User.findOneAndUpdate({ id: decoded.id }, { "room": room.id }).then(
                     user => {
@@ -101,7 +113,6 @@ router.post('/addRoom', (req, res) => {
                             decoded,
                             config.get('jwtSecret'),
                             (err, token) => {
-                                console.log('token :', token);
                                 if (err) throw err;
                                 res.status(200).json({ msg: "Usuario y sala creados correctamente", token: token })
                             }
