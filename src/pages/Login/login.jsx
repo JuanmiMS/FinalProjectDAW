@@ -18,7 +18,7 @@ class Login extends Component {
 
   }
   responseGoogle = (response) => {
-    axios.post("http://localhost:9000/api/users/", response)
+    axios.post("http://juanmi.ovh:9000/api/users/", response)
       .then((response) => {
         this.setState({
           token: response.data.token,
@@ -54,7 +54,7 @@ class Login extends Component {
 
   addRoom =  () => {
     let roomValue = document.getElementById('roomInput').value
-    axios.post("http://localhost:9000/api/users/addRoom", {sala: roomValue, token: localStorage.getItem('SessionToken')})
+    axios.post("http://juanmi.ovh:9000/api/users/addRoom", {sala: roomValue, token: localStorage.getItem('SessionToken')})
       .then((response) => {
         console.log('response', response)
         if(response.status === 200){
