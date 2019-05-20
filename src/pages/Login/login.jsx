@@ -12,8 +12,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: '',
-      redirect: false
+      token: ''
     }
 
   }
@@ -56,7 +55,13 @@ class Login extends Component {
     let sala = "testRoom"
     axios.post("http://localhost:9000/api/users/addRoom", {sala: sala, token: localStorage.getItem('SessionToken')})
       .then((response) => {
-        console.log('response', response)        
+        console.log('response', response)
+        if(response.status === 200){
+          this.props.history.push('/')
+        }
+        else{
+          alert("Error interno")
+        }      
       })
       .catch(error => {
         alert("Sala incorrecta")
