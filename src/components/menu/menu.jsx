@@ -12,10 +12,10 @@ export default class Menu extends Component {
                 <div className="left-navigation">
                     <ul className="list">
                         <h5><strong>{this.props.infoUser.name}</strong></h5>
+                        <h5><strong>SALA: {this.props.infoUser.room}</strong></h5>
                         <Link to="/"><li> Home</li></Link>
                         <Link to="/addWork"><li> Add Work</li></Link>
                     </ul>
-
                 </div>
             </div>
         )

@@ -13,12 +13,12 @@ class Login extends Component {
     super(props);
     this.state = {
       token: '',
-      redirect: false
+      isLogged : false
     }
 
   }
   responseGoogle = (response) => {
-    axios.post("http://juanmi.ovh:9000/api/users/", response)
+    axios.post("http://localhost:9000/api/users/", response)
       .then((response) => {
         this.setState({
           token: response.data.token,
@@ -52,16 +52,34 @@ class Login extends Component {
     this.props.history.push('/login')
   }
 
+  addRoom =  () => {
+    let roomValue = document.getElementById('roomInput').value
+    axios.post("http://localhost:9000/api/users/addRoom", {sala: roomValue, token: localStorage.getItem('SessionToken')})
+      .then((response) => {
+        console.log('response', response)
+        if(response.status === 200){
+          this.props.history.push('/')
+        }
+        else{
+          alert("Error interno")
+        }      
+      })
+      .catch(error => {
+        alert("Sala incorrecta")
+      });
+  }
+
   render() {
     let isLogged;
     let logo = config.logo
 
-    if (localStorage.getItem('SessionToken') && localStorage.getItem('SessionToken')) {
+    if (localStorage.getItem('SessionToken')) {
       isLogged = 
       <div>
         Introduzca el código del aula
-        <input type="text" className="form-control" id="codeInput" placeholder="Enter code" />
-        <button onClick={this.logout}>Cambiar Cuenta</button>
+        <input type="text" className="form-control" id="roomInput" placeholder="Enter code" defaultValue="testRoom"/>
+        <button onClick={this.logout} className="btn btn-danger" style={{margin: "5px"}}>Cambiar Cuenta</button>
+        <button onClick={this.addRoom} className="btn btn-info" style={{float: "right", margin: "5px"}}>Agregar aula</button>
       </div>
     }
     else {
@@ -83,7 +101,7 @@ class Login extends Component {
                 <img src={logo} className="brand_logo" alt="Logo" />
               </div>
             </div>
-            <div className="d-flex justify-content-center form_container">
+            <div className="d-flex justify-content-center form_container ">
               <div className="App">
                 {isLogged}
               </div>
