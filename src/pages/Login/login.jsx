@@ -42,7 +42,7 @@ class Login extends Component {
   }
 
   componentDidMount(){
-    if (localStorage.getItem('SessionToken') && localStorage.getItem('roomId'))  {
+    if (localStorage.getItem('SessionToken'))  {
       this.props.history.push('/')
     }
   }
