@@ -42,7 +42,6 @@ render() {
             <MenuHOC onLogout={this.logoutFather}/>
           </div>
           <div className="col-md-10 col-sm-8 main-content">
-            {/* <!--Main content code to be written here -->  */}
             <h1>HOME</h1>
           </div>
         </div>

@@ -9,11 +9,24 @@ const Work = require('../models/Work')
 
 router.post('/add', (req, res) => {
 
+    console.log('work', req.body.work)
+    // const title = req.body.title
+    // const description = req.body.description
+    // const authorName = req.body.author
+    // const authorGoogleId = req.body.authorGoogleId
+    const {title, description, authorName, authorGoogleId} = req.body.work
+
     const work = new Work({
-        title: "PRUEBA "+ new Date(),
-        description: "LOREM IPSUM CARPE DIEM",
-        Date : new Date()
+        title,
+        description,
+        author : {
+            authorName,
+            authorGoogleId
+        },
+        date : new Date()
     })
+
+    console.log("WROK: ", work)
     work.save()
     res.json(work)
 })

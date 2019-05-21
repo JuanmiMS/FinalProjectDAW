@@ -63,8 +63,11 @@ export default class Menu extends Component {
                     <ul className="list">
                         <h5><strong>{this.state.rol} {this.state.name}</strong></h5>
                         <h5><strong>SALA: {this.state.room}</strong></h5>
-                        <Link to="/"><li> Home</li></Link>
-                        <Link to="/addWork"><li> Add Work</li></Link>
+                        <Link to="/"><li> Inicio</li></Link>
+                        
+                        ---PROFESOR LINKS---
+                        <Link to="/seeWorks"><li> Ver tareas</li></Link>
+                        <Link to="/addWork"><li> Añadir tarea</li></Link>
                     </ul>
                 </div>
                 <button onClick={this.check}>CheckUserTEST</button>
