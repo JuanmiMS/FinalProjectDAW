@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
 import './addWork.css'
+import axios from 'axios'
+
 const jwt = require('jsonwebtoken')
 const config = require('../../config/default')
 
 
-export default class addWork extends Component {
 
+export default class addWork extends Component {
 
   constructor(props) {
     super(props)
     this.state = ({
-      redirect: false
+      redirect: false,
+      date: new Date()
     })
   }
 
@@ -20,31 +23,57 @@ export default class addWork extends Component {
 
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     this.logout()
-  }
 
+  }
   logout = _ => {
     if (!localStorage.getItem('SessionToken') || this.state.redirect) {
       this.props.history.push('/login')
     }
+    else {
+      let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
+      if (infoUser.rol !== "Profesor") {
+        this.props.history.push('/')
+      }
+      else{
+        this.setState({
+          name : infoUser.name,
+          googleId : infoUser.googleId
+        })
+      }
+    }
   }
-  
+
   logoutFather = _ => {
     this.setState({ redirect: true }, () => {
       console.log('LOGOUT!');
     })
-    
+
   }
 
-  render() {
+  addWork = _ => {
 
+    const work = {
+      title : document.getElementById("title").value,
+      description : document.getElementById("description").value,
+      author : this.state.name,
+      authorGoogleId : this.state.googleId
+    }
+    axios.post("http://localhost:9000/api/works/add", {work})
+      .then((response) => {
+      console.log("RESPUESTA:", response)
+      })
+    }     
+  
+
+  render() {
     return (
       <div>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-2 col-sm-4 sidebar1">
-              <MenuHOC onLogout={this.logoutFather}/>
+              <MenuHOC onLogout={this.logoutFather} />
             </div>
             <div className="col-md-10 col-sm-8 main-content">
               <div className="container-fluid">
@@ -53,38 +82,14 @@ export default class addWork extends Component {
                     <form>
                       <div className="row">
                         <div className="col-sm-12">
-                          <h1>Contact form</h1>
+                          <h1>Agregar nueva tarea</h1>
                         </div>
                       </div>
 
                       <div className="row">
-                        <div className="col-sm-6">
+                        <div className="col-sm-12">
                           <div className="inputBox ">
-                            <div className="inputText">First Name</div>
-                            <input type="text" name="" className="input" />
-                          </div>
-                        </div>
-
-                        <div className="col-sm-6">
-                          <div className="inputBox">
-                            <div className="inputText">Last Name</div>
-                            <input type="text" name="" className="input" />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <div className="inputBox">
-                            <div className="inputText">Email</div>
-                            <input type="text" name="" className="input" />
-                          </div>
-                        </div>
-
-                        <div className="col-sm-6">
-                          <div className="inputBox">
-                            <div className="inputText">Mobile</div>
-                            <input type="text" name="" className="input" />
+                            <input type="text" id="title" placeholder="Titulo" className="input" />
                           </div>
                         </div>
                       </div>
@@ -92,15 +97,13 @@ export default class addWork extends Component {
                       <div className="row">
                         <div className="col-sm-12">
                           <div className="inputBox">
-                            <div className="inputText">Email</div>
-                            <textarea className="input"></textarea>
+                            <textarea placeholder="Enunciado" id="description" className="input"></textarea>
                           </div>
                         </div>
                       </div>
-
                       <div className="row">
                         <div className="col-sm-12">
-                          <input type="submit" name="" className="button" value="Send Message" />
+                          <input onClick={this.addWork} className="button" defaultValue="Agregar tarea" />
                         </div>
                       </div>
                     </form>

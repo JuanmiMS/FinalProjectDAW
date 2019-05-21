@@ -10,8 +10,12 @@ const WorkSchema = Schema({
         type: String,
         required: true
     },
-    Date: {
+    date: {
         type: Date,
+        required: true
+    },
+    author: {
+        type: Object,
         required: true
     }
 
