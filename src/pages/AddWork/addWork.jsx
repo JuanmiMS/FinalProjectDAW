@@ -60,9 +60,9 @@ export default class addWork extends Component {
       author : this.state.name,
       authorGoogleId : this.state.googleId
     }
-    axios.post("http://localhost:9000/api/works/add", {work})
+    axios.post("http://juanmi.ovh/api/works/add", {work})
       .then((response) => {
-      console.log("RESPUESTA:", response)
+        console.log("RESPUESTA:", response)
       })
     }     
   
