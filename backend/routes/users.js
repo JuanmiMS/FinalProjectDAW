@@ -31,7 +31,8 @@ router.post('/', auth, (req, res) => {
                     name: name,
                     email: email,
                     imageUrl: imageUrl,
-                    room: ''
+                    room: '',
+                    rol: 'Profesor'
                 })
                 user.save()
 
@@ -75,14 +76,16 @@ router.post('/addRoom', (req, res) => {
     const sala = req.body.sala
     const token = req.body.token
 
+    //TODO lvl 1 FIX actualizar sala
     Room.findOne({ id: sala }).then(
         room => {
             const decoded = jwt.verify(token, config.jwtSecret)
             if (room) {
-                User.findOneAndUpdate({ id: decoded.id }, { "room": sala }).then(
+                Room.findOneAndUpdate({ id: decoded.id }, { "room": sala }).then(
                     user => {
                         decoded.room = room.id
-                        //Actualizamos token                        
+                        //Actualizamos token     
+                        console.log('user :', user);
                         jwt.sign(
                             decoded,
                             config.get('jwtSecret'),
@@ -94,6 +97,7 @@ router.post('/addRoom', (req, res) => {
                     }
                 )
             }
+
             //TODO lvl 3, TEMP: si no encuentra la sala la crea
             else {
                 const room = new Room({

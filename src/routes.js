@@ -12,10 +12,8 @@ let routing = (
             <Switch>
                 <Route exact path="/login" component={Login} />
                 <Route path="/addRoom" component={Login} />
-                {/* <Route exact path="/addCode" component={RoomCode} /> */}
                 <Route path="/addWork" component={AddWork} />
                 <Route path="/" component={Home} />
-                {/* <Route path="/example" component={Example} /> */}
             </Switch>
         </BrowserRouter>
     </Provider>
