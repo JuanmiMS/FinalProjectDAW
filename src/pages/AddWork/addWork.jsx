@@ -32,7 +32,7 @@ export default class addWork extends Component {
   
   logoutFather = _ => {
     this.setState({ redirect: true }, () => {
-      console.log('LOGOUT! :');
+      console.log('LOGOUT!');
     })
     
   }
@@ -44,7 +44,7 @@ export default class addWork extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-2 col-sm-4 sidebar1">
-            <MenuHOC onLogout={this.logoutFather}/>
+              <MenuHOC onLogout={this.logoutFather}/>
             </div>
             <div className="col-md-10 col-sm-8 main-content">
               <div className="container-fluid">

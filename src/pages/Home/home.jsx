@@ -15,7 +15,6 @@ export default class Home extends Component {
 
   componentWillMount() {
     this.logout()
-
   }
 
   componentDidUpdate(){
@@ -30,13 +29,11 @@ export default class Home extends Component {
 
   logoutFather = _ => {
     this.setState({ redirect: true }, () => {
-      console.log('LOGOUT! :');
+      console.log('LOGOUT!');
     })
-    
   }
 
 render() {
-
   return (
     <div>
       <div className="container-fluid">
