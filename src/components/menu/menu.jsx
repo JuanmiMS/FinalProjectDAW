@@ -66,7 +66,7 @@ export default class Menu extends Component {
                         <Link to="/"><li> Inicio</li></Link>
                         
                         ---PROFESOR LINKS---
-                        <Link to="/seeWorks"><li> Ver tareas</li></Link>
+                        <Link to="/seeWork"><li> Ver tareas</li></Link>
                         <Link to="/addWork"><li> Añadir tarea</li></Link>
                     </ul>
                 </div>

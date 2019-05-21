@@ -14,7 +14,7 @@ router.post('/add', (req, res) => {
     // const description = req.body.description
     // const authorName = req.body.author
     // const authorGoogleId = req.body.authorGoogleId
-    const {title, description, authorName, authorGoogleId} = req.body.work
+    const {title, description, authorName, authorGoogleId, limitDate} = req.body.work
 
     const work = new Work({
         title,
@@ -23,10 +23,9 @@ router.post('/add', (req, res) => {
             authorName,
             authorGoogleId
         },
-        date : new Date()
+        date : limitDate
     })
 
-    console.log("WROK: ", work)
     work.save()
     res.json(work)
 })
