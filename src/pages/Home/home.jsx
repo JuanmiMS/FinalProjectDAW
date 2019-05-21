@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import MenuHOC from '../../components/menu/menu';
 const jwt = require('jsonwebtoken')
 const config = require('../../config/default')
@@ -8,60 +7,47 @@ const config = require('../../config/default')
 export default class Home extends Component {
 
   constructor(props) {
-    let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
-    super(props);
+    super(props)
     this.state = ({
-      token: localStorage.getItem('SessionToken'),
-      imageUrl: infoUser.imageUrl,
-      room: infoUser.room,
-      name: infoUser.name
+      redirect: false
     })
   }
 
   componentWillMount() {
-    if (!localStorage.getItem('SessionToken')) {
+    this.logout()
+  }
+
+  componentDidUpdate(){
+    this.logout()
+  }
+
+  logout = _ => {
+    if (!localStorage.getItem('SessionToken') || this.state.redirect) {
       this.props.history.push('/login')
     }
   }
 
-  //TODO lvl 3
-  check = () => {
-    console.log("OK", jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret))
-
-    //Falla llamada al pedir verificación
-    axios.get("http://juanmi.ovh:9000/api/users/checkUser", { data: "AAAAAAAAAAAAAAAAA" }).then((response) => {
-      console.log('response :', response.data);
+  logoutFather = _ => {
+    this.setState({ redirect: true }, () => {
+      console.log('LOGOUT!');
     })
-
   }
 
-  logout = () => {
-    localStorage.removeItem('SessionToken')
-    localStorage.removeItem('roomId')
-    this.props.history.push('/login')
-  }
-
-
-  render() {
-
-    return (
-      <div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-2 col-sm-4 sidebar1">
-              <MenuHOC infoUser={this.state} />
-              <button onClick={this.check}>CheckUserTEST</button>
-              <button onClick={this.logout}>logout</button>
-            </div>
-          
+render() {
+  return (
+    <div>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-2 col-sm-4 sidebar1">
+            <MenuHOC onLogout={this.logoutFather}/>
+          </div>
           <div className="col-md-10 col-sm-8 main-content">
             {/* <!--Main content code to be written here -->  */}
             <h1>HOME</h1>
-
           </div>
         </div>
       </div>
-      </div>
-    )
-  }
+    </div>
+  )
+}
 }
