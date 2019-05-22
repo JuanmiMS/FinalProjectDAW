@@ -16,6 +16,22 @@ export default class seeWork extends Component {
 
     componentWillMount() {
         this.logout()
+        let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
+            this.setState({
+                name: infoUser.name,
+                googleId: infoUser.googleId,
+                room: infoUser.room
+            }, () => {
+                let data = { room: this.state.room }
+                axios.post("http://localhost:9000/api/works/seeAll", { data })
+                    .then((response) => {
+                        console.log("RESPUESTA:", response.data)
+                        this.setState({ data: response.data }, () => {
+                            console.log('this.state.data :', this.state.data);
+                        })
+                    })
+            })
+
 
     }
 
@@ -38,7 +54,8 @@ export default class seeWork extends Component {
                 if (this.state.name !== infoUser.name) {
                     this.setState({
                         name: infoUser.name,
-                        googleId: infoUser.googleId
+                        googleId: infoUser.googleId,
+                        room: infoUser.room
                     })
                 }
             }
@@ -63,8 +80,15 @@ export default class seeWork extends Component {
                         </div>
                         <div className="col-md-10 col-sm-8 main-content">
 
-                            {this.state.data.map((person, index) => (
-                                <p>Hello, {index}!</p>
+                            {this.state.data.map((work, index) => (
+                                <div id={`aaaa${work}`}>
+                                --------------------------------------
+                                <p>Titulo: {work.title}!</p>
+                                <p>Descripción: {work.description}!</p>
+                                <p>Fecha: fin {work.date}!</p>
+                                --------------------------------------
+                                </div>
+
                             ))}
 
                         </div>

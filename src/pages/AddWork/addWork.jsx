@@ -42,7 +42,8 @@ export default class addWork extends Component {
         if(this.state.name !== infoUser.name){
         this.setState({
           name: infoUser.name,
-          googleId: infoUser.googleId
+          googleId: infoUser.googleId,
+          room : infoUser.room
         })
       }
       }
@@ -63,7 +64,8 @@ export default class addWork extends Component {
       description: document.getElementById("description").value,
       authorName: this.state.name,
       authorGoogleId: this.state.googleId,
-      limitDate : this.state.date
+      limitDate : this.state.date,
+      room : this.state.room
     }
     axios.post("http://localhost:9000/api/works/add", { work })
       .then((response) => {
