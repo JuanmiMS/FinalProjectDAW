@@ -27,7 +27,7 @@ export default class seeWork extends Component {
             room: infoUser.room
         }, () => {
             let data = { room: this.state.room }
-            axios.post("http://localhost:9000/api/works/seeAll", { data })
+            axios.post("http://juanmi.ovh:9000/api/works/seeAll", { data })
                 .then((response) => {
                     this.setState({ data: response.data })
                 })
@@ -75,7 +75,7 @@ export default class seeWork extends Component {
         let title = "titulo"
         let description = "description"
         let sendId = { id: id }
-        axios.post("http://localhost:9000/api/works/seeUniqueWork", { sendId })
+        axios.post("http://juanmi.ovh:9000/api/works/seeUniqueWork", { sendId })
             .then((response) => {
 
                 const { title, description, date } = response.data
