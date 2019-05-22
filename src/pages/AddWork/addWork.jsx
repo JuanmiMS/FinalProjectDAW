@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
 import './addWork.css'
+import DatePicker from 'react-date-picker'
 import axios from 'axios'
-
 const jwt = require('jsonwebtoken')
 const config = require('../../config/default')
 
@@ -25,22 +25,27 @@ export default class addWork extends Component {
 
   componentDidUpdate() {
     this.logout()
-
   }
+
+
   logout = _ => {
     if (!localStorage.getItem('SessionToken') || this.state.redirect) {
       this.props.history.push('/login')
     }
     else {
       let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
+
       if (infoUser.rol !== "Profesor") {
         this.props.history.push('/')
       }
-      else{
+      else {
+        if(this.state.name !== infoUser.name){
         this.setState({
-          name : infoUser.name,
-          googleId : infoUser.googleId
+          name: infoUser.name,
+          googleId: infoUser.googleId,
+          room : infoUser.room
         })
+      }
       }
     }
   }
@@ -55,17 +60,23 @@ export default class addWork extends Component {
   addWork = _ => {
 
     const work = {
-      title : document.getElementById("title").value,
-      description : document.getElementById("description").value,
-      author : this.state.name,
-      authorGoogleId : this.state.googleId
+      title: document.getElementById("title").value,
+      description: document.getElementById("description").value,
+      authorName: this.state.name,
+      authorGoogleId: this.state.googleId,
+      limitDate : this.state.date,
+      room : this.state.room
     }
-    axios.post("http://juanmi.ovh/api/works/add", {work})
+    axios.post("http://localhost:9000/api/works/add", { work })
       .then((response) => {
         console.log("RESPUESTA:", response)
       })
-    }     
-  
+  }
+
+
+  dateSelected = date => {
+    this.setState({ date })
+  }
 
   render() {
     return (
@@ -98,6 +109,13 @@ export default class addWork extends Component {
                         <div className="col-sm-12">
                           <div className="inputBox">
                             <textarea placeholder="Enunciado" id="description" className="input"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-12">
+                          <div className="inputBox">
+                              Fecha límite: <DatePicker onChange={this.dateSelected} value={this.state.date}/>
                           </div>
                         </div>
                       </div>

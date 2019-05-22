@@ -9,26 +9,39 @@ const Work = require('../models/Work')
 
 router.post('/add', (req, res) => {
 
-    console.log('work', req.body.work)
-    // const title = req.body.title
-    // const description = req.body.description
-    // const authorName = req.body.author
-    // const authorGoogleId = req.body.authorGoogleId
-    const {title, description, authorName, authorGoogleId} = req.body.work
+    const { title, description, authorName, authorGoogleId, limitDate, room } = req.body.work
 
     const work = new Work({
         title,
         description,
-        author : {
+        room,
+        author: {
             authorName,
             authorGoogleId
         },
-        date : new Date()
+        date: limitDate
     })
 
-    console.log("WROK: ", work)
     work.save()
     res.json(work)
+})
+
+router.post('/seeAll', (req, res) => {
+
+    Work.find({room: req.body.data.room}, function (err, works) {
+        let workMap = [];
+        works.forEach(function (work, index) {
+            workMap[index] = work;
+        });
+        res.send(workMap);
+    });
+})
+
+router.post('/seeUniqueWork', (req, res) => {
+
+    Work.findOne({"_id" :  req.body.sendId.id}, function (err, work) {
+        res.send(work);
+    });
 })
 
 module.exports = router

@@ -10,6 +10,10 @@ const WorkSchema = Schema({
         type: String,
         required: true
     },
+    room: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         required: true

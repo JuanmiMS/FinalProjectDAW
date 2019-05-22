@@ -5,6 +5,7 @@ import store from './redux/store'
 import Login from './pages/Login/login';
 import Home from './pages/Home/home';
 import AddWork from './pages/AddWork/addWork';
+import SeeWork from './pages/SeeWork/seeWork';
 
 let routing = (
     <Provider store={store}>
@@ -13,6 +14,7 @@ let routing = (
                 <Route exact path="/login" component={Login} />
                 <Route path="/addRoom" component={Login} />
                 <Route path="/addWork" component={AddWork} />
+                <Route path="/seeWork" component={SeeWork} />
                 <Route path="/" component={Home} />
             </Switch>
         </BrowserRouter>
