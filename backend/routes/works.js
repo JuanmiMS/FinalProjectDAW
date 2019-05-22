@@ -30,11 +30,17 @@ router.post('/seeAll', (req, res) => {
 
     Work.find({room: req.body.data.room}, function (err, works) {
         let workMap = [];
-
         works.forEach(function (work, index) {
             workMap[index] = work;
         });
         res.send(workMap);
+    });
+})
+
+router.post('/seeUniqueWork', (req, res) => {
+
+    Work.findOne({"_id" :  req.body.sendId.id}, function (err, work) {
+        res.send(work);
     });
 })
 
