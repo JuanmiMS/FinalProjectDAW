@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const router = express.Router();
 const config = require('config')
 const jwt = require('jsonwebtoken')
@@ -22,28 +23,53 @@ router.post('/add', (req, res) => {
         },
         date: limitDate
     })
+
     work.save((err, workResponse) => {
-        User.find({room: workResponse.room}, (err, users) => {
-            
-            users.forEach((user)=>{
+        User.find({ room: workResponse.room }, (err, users) => {
+
+            users.forEach((user) => {
                 let assingWork = new WorkPerUser({
-                    userId : user.googleId,
-                    workId : workResponse.id,
-                    completed : false,
-                    totalTokens : 0,
-                    room : workResponse.room
+                    userId: user.googleId,
+                    workId: workResponse.id,
+                    completed: false,
+                    totalTokens: 0,
+                    room: workResponse.room
                 })
 
                 assingWork.save()
             })
+        })
+        res.json(work)
     })
-    res.json(work)
 })
+
+router.post('/seeOwnTasks', (req, res) => {
+    let taskMap = []
+    WorkPerUser.find({ userId: req.body.data.userId, room: req.body.data.room }, (err, tasks) => {
+        tasks.forEach((task, index) => {
+            Work.findOne({ _id: task.workId }, (err, work) => {
+                taskMap.push({
+                    idWork: task.workId,
+                    title: work.title,
+                    description: work.description,
+                    completed: task.completed,
+                    totalTokens: task.totalTokens
+                }
+                )
+            }).then(()=>{
+                res.send(taskMap)
+            }
+            )
+        }
+        )
+    }
+    )
 })
+
 
 router.post('/seeAll', (req, res) => {
 
-    Work.find({room: req.body.data.room}, function (err, works) {
+    Work.find({ room: req.body.data.room }, function (err, works) {
         let workMap = [];
         works.forEach(function (work, index) {
             workMap[index] = work;
@@ -52,9 +78,22 @@ router.post('/seeAll', (req, res) => {
     });
 })
 
-router.post('/seeUniqueWork', (req, res) => {
+router.post('/updateTaskFinish', (req, res) => {
 
-    Work.findOne({"_id" :  req.body.sendId.id}, function (err, work) {
+    console.log('object :', req.body.data);
+
+    // Work.find({ room: req.body.data.sendId.id }, function (err, works) {
+    //     let workMap = [];
+    //     works.forEach(function (work, index) {
+    //         workMap[index] = work;
+    //     }); 
+    //     res.send(workMap);
+    // });
+})
+
+router.post('/seeUniqueWork', (req, res) => {
+    console.log('req.body.sendId.id', req.body.sendId.id)
+    Work.findOne({ "_id": req.body.sendId.id }, function (err, work) {
         res.send(work);
     });
 })

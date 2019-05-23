@@ -67,6 +67,8 @@ export default class addWork extends Component {
       limitDate : this.state.date,
       room : this.state.room
     }
+
+    console.log('work', work)
     axios.post("http://localhost:9000/api/works/add", { work })
       .then((response) => {
         console.log("RESPUESTA:", response)

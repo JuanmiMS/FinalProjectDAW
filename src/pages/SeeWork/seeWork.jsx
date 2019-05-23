@@ -3,6 +3,7 @@ import MenuHOC from '../../components/menu/menu';
 import axios from 'axios'
 import Drawer from 'react-drag-drawer'
 import './seeWork.css'
+import { finished } from 'stream';
 const jwt = require('jsonwebtoken')
 const config = require('../../config/default')
 
@@ -26,14 +27,16 @@ export default class seeWork extends Component {
             googleId: infoUser.googleId,
             room: infoUser.room
         }, () => {
-            let data = { room: this.state.room }
-            axios.post("http://localhost:9000/api/works/seeAll", { data })
+            let data = { userId: this.state.googleId, room: this.state.room }
+            axios.post("http://localhost:9000/api/works/seeOwnTasks", { data })
                 .then((response) => {
-                    this.setState({ data: response.data })
+                    console.log('response :', response.data);
+                    this.setState({ data: response.data }, () => {
+                        console.log('this.data :', this.state.data);
+                    })
+
                 })
         })
-
-
     }
 
     componentDidUpdate() {
@@ -77,17 +80,19 @@ export default class seeWork extends Component {
         let sendId = { id: id }
         axios.post("http://localhost:9000/api/works/seeUniqueWork", { sendId })
             .then((response) => {
-
-                const { title, description, date } = response.data
-
+                const { _id, title, description, date, completed, totalTokens } = response.data
                 this.setState({
                     toggle: !toogle,
                     actualWork: {
+                        id : _id,
                         title,
                         description,
-                        date
+                        date,
+                        completed,
+                        totalTokens
                     }
                 })
+                console.log('this.state :', this.state);
             })
     }
 
@@ -98,9 +103,18 @@ export default class seeWork extends Component {
     logState = () => {
         console.log(`Drawer now ${this.state.open ? 'open' : 'closed'}`)
     }
-
+    changeStatus = id => {
+        console.log('id', id)
+        let sendId = { id: id }
+        axios.post("http://localhost:9000/api/works/updateTaskFinish", { sendId })
+            .then((response) => {
+                console.log("Cambiado!")
+            })
+    }
 
     render() {
+
+
         const { toggle } = this.state
         return (
             <div>
@@ -112,22 +126,36 @@ export default class seeWork extends Component {
                         <div className="col-md-10 col-sm-8 main-content">
                             <div className="container" style={{ marginTop: 50 }}>
                                 <div id="products">
-                                    {this.state.data.map((work, index) => (
-                                        <div id={`carta` + index} key={index} className="item col-xs-4 col-lg-4" onClick={() => this.toggle(work._id)}>
+                                    {this.state.data.map((task, index) => (
+                                        <div id={`carta` + index} key={index} className="item col-xs-4 col-lg-4" onClick={() => this.toggle(task.idWork)}>
                                             <div className="thumbnail card">
-                                                <div className="img-event">
-                                                    <img className="group list-group-image img-fluid" src="http://placehold.it/300x250/000/fff" alt="" />
-                                                </div>
                                                 <div className="caption card-body">
                                                     <h4 className="group card-title inner list-group-item-heading">
-                                                        {work.title}</h4>
+                                                        {task.title}</h4>
                                                     <p className="group inner list-group-item-text">
-                                                        {this.formatText(work.description)}</p>
+                                                        {this.formatText(task.description)}</p>
                                                     <div className="row">
                                                         <div className="col-xs-12 col-md-6">
                                                             <p className="lead">
-                                                                {work.date}
+                                                                {task.date}
                                                             </p>
+
+                                                            <p className="lead">
+                                                                Tokens: {task.totalTokens}
+                                                            </p>
+                                                            <br></br>
+                                                            <br></br>
+                                                            <br></br>
+                                                            <br></br>
+                                                            <div className="switch-container">
+                                                                <label>
+                                                                    <input ref="switch" checked={this.state.actualWork.completed} className="switch" type="checkbox" />
+                                                                    <div>
+                                                                        <div></div>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,7 +172,7 @@ export default class seeWork extends Component {
                     open={toggle}
                     onRequestClose={this.toggle}
                 >
-                    <div className="modal-content" style={{ width: '90%', marginLeft : '5%', marginTop : '5%' }}>
+                    <div className="modal-content" style={{ width: '90%', marginLeft: '5%', marginTop: '5%' }}>
                         <div className="modal-header">
                             {/* <button type="button" className="close" data-dismiss="modal">&times;</button> */}
                             <h4 className="modal-title">{this.state.actualWork.title}</h4>
@@ -153,6 +181,16 @@ export default class seeWork extends Component {
                             <p>{this.state.actualWork.description}</p>
                             <p>{this.state.actualWork.date}</p>
                         </div>
+
+                        <div className="switch-container">
+                            <label>
+                                <input ref="switch" checked={this.state.actualWork.completed} className="switch" type="checkbox" />
+                                <div onClick={this.changeStatus(this.state.actualWork.id)} >
+                                    <div onClick={this.changeStatus(this.state.actualWork.id)} ></div>
+                                </div>
+                            </label>
+                        </div>
+
                     </div>
                 </Drawer>
             </div>
