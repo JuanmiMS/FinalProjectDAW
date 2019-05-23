@@ -6,6 +6,7 @@ const auth = require('../middleware/auth')
 
 const User = require('../models/User')
 const Work = require('../models/Work')
+const WorkPerUser = require('../models/WorkPerUser')
 
 router.post('/add', (req, res) => {
 
@@ -21,9 +22,23 @@ router.post('/add', (req, res) => {
         },
         date: limitDate
     })
+    work.save((err, workResponse) => {
+        User.find({room: workResponse.room}, (err, users) => {
+            
+            users.forEach((user)=>{
+                let assingWork = new WorkPerUser({
+                    userId : user.googleId,
+                    workId : workResponse.id,
+                    completed : false,
+                    totalTokens : 0,
+                    room : workResponse.room
+                })
 
-    work.save()
+                assingWork.save()
+            })
+    })
     res.json(work)
+})
 })
 
 router.post('/seeAll', (req, res) => {
