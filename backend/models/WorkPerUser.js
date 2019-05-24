@@ -10,6 +10,10 @@ const WorkPerUserSchema = Schema({
         type: String,
         required: true
     },
+    actualState: {
+        type: Number,
+        required: true
+    },
     completed: {
         type: Boolean,
         required: true

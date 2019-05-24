@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
 import axios from 'axios'
-import Drawer from 'react-drag-drawer'
 import './seeWork.css'
-import { finished } from 'stream';
+import { Link } from 'react-router-dom';
 const jwt = require('jsonwebtoken')
 const config = require('../../config/default')
 
@@ -14,7 +13,6 @@ export default class seeWork extends Component {
         this.state = ({
             redirect: false,
             data: [],
-            toggle: false,
             actualWork: {}
         })
     }
@@ -73,29 +71,6 @@ export default class seeWork extends Component {
 
     }
 
-    toggle = id => {
-        let toogle = this.state.toggle
-        let title = "titulo"
-        let description = "description"
-        let sendId = { id: id }
-        axios.post("http://localhost:9000/api/works/seeUniqueWork", { sendId })
-            .then((response) => {
-                const { _id, title, description, date, completed, totalTokens } = response.data
-                this.setState({
-                    toggle: !toogle,
-                    actualWork: {
-                        id : _id,
-                        title,
-                        description,
-                        date,
-                        completed,
-                        totalTokens
-                    }
-                })
-                console.log('this.state :', this.state);
-            })
-    }
-
     formatText = text => {
         return text !== undefined ? text.substring(1, 250) + "..." : ""
     }
@@ -103,19 +78,11 @@ export default class seeWork extends Component {
     logState = () => {
         console.log(`Drawer now ${this.state.open ? 'open' : 'closed'}`)
     }
-    changeStatus = id => {
-        console.log('id', id)
-        let sendId = { id: id }
-        axios.post("http://localhost:9000/api/works/updateTaskFinish", { sendId })
-            .then((response) => {
-                console.log("Cambiado!")
-            })
-    }
+
 
     render() {
 
 
-        const { toggle } = this.state
         return (
             <div>
                 <div className="container-fluid">
@@ -127,7 +94,8 @@ export default class seeWork extends Component {
                             <div className="container" style={{ marginTop: 50 }}>
                                 <div id="products">
                                     {this.state.data.map((task, index) => (
-                                        <div id={`carta` + index} key={index} className="item col-xs-4 col-lg-4" onClick={() => this.toggle(task.idWork)}>
+                                        <Link to={`/taskInfo/${task.idWork}`}>
+                                        <div id={`carta` + index} key={index} className="item col-xs-4 col-lg-4">
                                             <div className="thumbnail card">
                                                 <div className="caption card-body">
                                                     <h4 className="group card-title inner list-group-item-heading">
@@ -143,56 +111,18 @@ export default class seeWork extends Component {
                                                             <p className="lead">
                                                                 Tokens: {task.totalTokens}
                                                             </p>
-                                                            <br></br>
-                                                            <br></br>
-                                                            <br></br>
-                                                            <br></br>
-                                                            <div className="switch-container">
-                                                                <label>
-                                                                    <input ref="switch" checked={this.state.actualWork.completed} className="switch" type="checkbox" />
-                                                                    <div>
-                                                                        <div></div>
-                                                                    </div>
-                                                                </label>
-                                                            </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        </Link>
                                     ))}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <Drawer
-                    open={toggle}
-                    onRequestClose={this.toggle}
-                >
-                    <div className="modal-content" style={{ width: '90%', marginLeft: '5%', marginTop: '5%' }}>
-                        <div className="modal-header">
-                            {/* <button type="button" className="close" data-dismiss="modal">&times;</button> */}
-                            <h4 className="modal-title">{this.state.actualWork.title}</h4>
-                        </div>
-                        <div className="modal-body">
-                            <p>{this.state.actualWork.description}</p>
-                            <p>{this.state.actualWork.date}</p>
-                        </div>
-
-                        <div className="switch-container">
-                            <label>
-                                <input ref="switch" checked={this.state.actualWork.completed} className="switch" type="checkbox" />
-                                <div onClick={this.changeStatus(this.state.actualWork.id)} >
-                                    <div onClick={this.changeStatus(this.state.actualWork.id)} ></div>
-                                </div>
-                            </label>
-                        </div>
-
-                    </div>
-                </Drawer>
             </div>
         )
     }

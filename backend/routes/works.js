@@ -33,9 +33,9 @@ router.post('/add', (req, res) => {
                     workId: workResponse.id,
                     completed: false,
                     totalTokens: 0,
+                    actualState : 0,
                     room: workResponse.room
                 })
-
                 assingWork.save()
             })
         })
@@ -78,24 +78,5 @@ router.post('/seeAll', (req, res) => {
     });
 })
 
-router.post('/updateTaskFinish', (req, res) => {
-
-    console.log('object :', req.body.data);
-
-    // Work.find({ room: req.body.data.sendId.id }, function (err, works) {
-    //     let workMap = [];
-    //     works.forEach(function (work, index) {
-    //         workMap[index] = work;
-    //     }); 
-    //     res.send(workMap);
-    // });
-})
-
-router.post('/seeUniqueWork', (req, res) => {
-    console.log('req.body.sendId.id', req.body.sendId.id)
-    Work.findOne({ "_id": req.body.sendId.id }, function (err, work) {
-        res.send(work);
-    });
-})
 
 module.exports = router
