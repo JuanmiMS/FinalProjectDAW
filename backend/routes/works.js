@@ -36,6 +36,7 @@ router.post('/add', (req, res) => {
                     actualState : 0,
                     room: workResponse.room
                 })
+
                 assingWork.save()
             })
         })
@@ -77,6 +78,11 @@ router.post('/seeAll', (req, res) => {
         res.send(workMap);
     });
 })
-
+router.post('/seeUniqueWork', (req, res) => {
+    console.log('req.body.sendId.id', req.body.sendId.id)
+    Work.findOne({ "_id": req.body.sendId.id }, function (err, work) {
+        res.send(work);
+    });
+})
 
 module.exports = router

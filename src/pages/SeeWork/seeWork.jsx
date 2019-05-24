@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
 import axios from 'axios'
+import Drawer from 'react-drag-drawer'
 import './seeWork.css'
 import { Link } from 'react-router-dom';
 const jwt = require('jsonwebtoken')

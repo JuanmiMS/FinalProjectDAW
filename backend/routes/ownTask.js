@@ -17,26 +17,31 @@ router.post('/seeUniqueWork', (req, res) => {
     Work.findOne({ "_id": taskId }, function (err, task) {
         console.log('task', task)
         WorkPerUser.findOne({"workId" : taskId, "userId" : userId}, (err, userTask)=>{
-            console.log('taskId, userId', taskId, userId)
-            console.log('userTask', userTask)
             let resTask = {
                 title: task.title,
                 description: task.description,
                 date: task.date,
+                taskOwnId : userTask.id,
                 completed: userTask.completed,
                 totalTokens: userTask.totalTokens,
                 actualState: userTask.actualState
             }
-            console.log('resTask :', resTask);
             res.send(resTask)
         })
-        
     });
 })
 
 router.post('/updateTaskFinish', (req, res) => {
+    let id = req.body.sendId.id
+    let compl = !req.body.sendId.completed
 
-    
+    console.log('id, compl', id, compl)
+
+    WorkPerUser.updateOne({_id : id}, 
+    { $set: { completed : compl } },
+    (err, task) => {
+        res.send(task)
+    })
 
 })
 
