@@ -53,8 +53,9 @@ router.post('/seeOwnTasks', (req, res) => {
                     idWork: task.workId,
                     title: work.title,
                     description: work.description,
+                    date : work.date,
                     completed: task.completed,
-                    totalTokens: task.totalTokens
+                    totalTokens: task.totalTokens,
                 }
                 )
             }).then(()=>{

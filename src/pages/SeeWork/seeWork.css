@@ -1,3 +1,6 @@
+
+card-body
+
 .view-group {
     display: -ms-flexbox;
     display: flex;
@@ -12,7 +15,7 @@
     padding: 0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
-    border-radius: 0px;
+	border-radius: 0px;
 }
 
 .item.list-group-item

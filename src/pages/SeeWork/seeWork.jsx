@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
 import axios from 'axios'
-import Drawer from 'react-drag-drawer'
 import './seeWork.css'
 import { Link } from 'react-router-dom';
 const jwt = require('jsonwebtoken')
@@ -18,6 +17,15 @@ export default class seeWork extends Component {
         })
     }
 
+    sortTasks = arr => {
+        if(arr !== undefined && arr.length !== 0){
+            arr.sort( (a,b) => a.date.localeCompare(b.date) )
+            
+            return arr.reverse()
+        }
+        
+    }
+
     componentWillMount() {
         this.logout()
         let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
@@ -30,10 +38,9 @@ export default class seeWork extends Component {
             axios.post("http://localhost:9000/api/works/seeOwnTasks", { data })
                 .then((response) => {
                     console.log('response :', response.data);
-                    this.setState({ data: response.data }, () => {
+                    this.setState({ data: this.sortTasks(response.data) }, () => {
                         console.log('this.data :', this.state.data);
                     })
-
                 })
         })
     }
@@ -80,6 +87,10 @@ export default class seeWork extends Component {
         console.log(`Drawer now ${this.state.open ? 'open' : 'closed'}`)
     }
 
+    isFinished = isComplete => {
+        return isComplete ? "#c8f7ce" : "#ffcfc6"
+    }
+
 
     render() {
 
@@ -95,9 +106,9 @@ export default class seeWork extends Component {
                             <div className="container" style={{ marginTop: 50 }}>
                                 <div id="products">
                                     {this.state.data.map((task, index) => (
-                                        <Link to={`/taskInfo/${task.idWork}`}>
-                                        <div id={`carta` + index} key={index} className="item col-xs-4 col-lg-4">
-                                            <div className="thumbnail card">
+                                        <Link to={`/taskInfo/${task.idWork}`} key={`carta` + index}>
+                                        <div id={`carta` + index}  className="item col-xs-4 col-lg-4">
+                                            <div className="thumbnail card" style={{backgroundColor: this.isFinished(task.completed)}}>
                                                 <div className="caption card-body">
                                                     <h4 className="group card-title inner list-group-item-heading">
                                                         {task.title}</h4>
@@ -105,12 +116,12 @@ export default class seeWork extends Component {
                                                         {this.formatText(task.description)}</p>
                                                     <div className="row">
                                                         <div className="col-xs-12 col-md-6">
-                                                            <p className="lead">
-                                                                {task.date}
-                                                            </p>
 
                                                             <p className="lead">
                                                                 Tokens: {task.totalTokens}
+                                                            </p>
+                                                            <p>
+                                                                DATE: {task.date}
                                                             </p>
                                                         </div>
                                                     </div>
