@@ -4,10 +4,10 @@ import MenuHOC from '../../components/menu/menu';
 import axios from 'axios'
 import './taskInfo.css'
 import Toggle from 'react-toggle'
+import InputNumber from 'react-input-number';
 import "react-toggle/style.css"
 const jwt = require('jsonwebtoken')
 const config = require('../../config/default')
-
 export default class seeWork extends Component {
 
     constructor(props) {
@@ -22,8 +22,8 @@ export default class seeWork extends Component {
         this.logout()
         let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
         let id = this.props.match.params.taskId
-        let sendId = { id: this.props.match.params.taskId }
-        axios.post("http://localhost:9000/api/ownTask/seeUniqueWork", { sendId })
+        let data = { id: this.props.match.params.taskId, googleId : infoUser.googleId}
+        axios.post("http://localhost:9000/api/ownTask/seeUniqueWork", { data })
             .then((response) => {
                 const { title, description, date, completed, totalTokens, actualState, taskOwnId } = response.data
                 this.setState({
@@ -70,22 +70,36 @@ export default class seeWork extends Component {
     }
 
     updateCompleteStatus = _ =>{
-        
-        console.log('this.state :', this.state);
-
-        let sendId = { id: this.state.taskOwnId, completed : this.state.completed }
-        axios.post("http://localhost:9000/api/ownTask/updateTaskFinish", { sendId })
+        let data = { id: this.state.taskOwnId, completed : this.state.completed }
+        axios.post("http://localhost:9000/api/ownTask/updateTaskFinish", { data })
             .then((response) => {
-                // const { title, description, date, completed, totalTokens, actualState } = response.data
-                console.log('response', response.data)
                 this.setState({
                     completed: !this.state.completed
                 })
-
             }).catch((error) => {
                 console.log('error :', error);
             })
+    }
 
+    deteleTask = _ => {
+        let data = { id: this.state.id, googleId : this.state.googleId }
+        axios.post("http://localhost:9000/api/ownTask/deleteTask", { data })
+            .then((response) => {
+                console.log('response', response)
+            }).catch((error) => {
+                console.log('error :', error);
+            })
+    }
+    updateTaskTokens = _ => {
+        let tok = document.getElementsByClassName('css-11mdgg1-InputNumber')[0].value
+        this.setState({totalTokens : tok})
+        let data = { id: this.state.taskOwnId, tokens : tok}
+        axios.post("http://localhost:9000/api/ownTask/updateTaskTokens", { data })
+            .then((response) => {
+                // console.log('response', response)
+            }).catch((error) => {
+                // console.log('error :', error);
+            })
     }
 
     render() {
@@ -112,12 +126,14 @@ export default class seeWork extends Component {
                             <h2>ID: {this.state.id}</h2>
                             <h2>Titulo: {this.state.title}</h2>
                             <h2>description: {this.state.description}</h2>
-                            <h2>Fecha: {this.state.date}</h2>
-                            <h2>Tokens: {this.state.totalTokens}</h2>
+                            <h2>Fecha: {this.state.date}</h2>        
+                            <h2>Tokens:  <InputNumber min={0} max={100} step={1} value={this.state.totalTokens} onChange={this.updateTaskTokens} enableMobileNumericKeyboard/></h2>
                             <h2>Completed: {this.state.completed}</h2>
                             {toggle}
                             <h2>Estado actual: {this.state.actualState}</h2>
                             <Link to="/seeWork"><button type="button" className="btn btn-primary">Ver Tareas</button></Link>
+                            <p></p>
+                            <button type="button" className="btn btn-danger" onClick={this.deteleTask}>Borrar tarea</button>
                         </div>
                     </div>
                 </div>

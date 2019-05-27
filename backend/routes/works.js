@@ -11,6 +11,7 @@ const WorkPerUser = require('../models/WorkPerUser')
 
 router.post('/add', (req, res) => {
 
+    console.log('req.body.work', req.body.work)
     const { title, description, authorName, authorGoogleId, limitDate, room } = req.body.work
 
     const work = new Work({
@@ -26,7 +27,6 @@ router.post('/add', (req, res) => {
 
     work.save((err, workResponse) => {
         User.find({ room: workResponse.room }, (err, users) => {
-
             users.forEach((user) => {
                 let assingWork = new WorkPerUser({
                     userId: user.googleId,
@@ -39,11 +39,14 @@ router.post('/add', (req, res) => {
 
                 assingWork.save()
             })
-        })
+        }).catch((err=>{
+            console.log(err)
+        }))
         res.json(work)
     })
 })
 
+//TODO lvl 5 error set headers. Still works :S
 router.post('/seeOwnTasks', (req, res) => {
     let taskMap = []
     WorkPerUser.find({ userId: req.body.data.userId, room: req.body.data.room }, (err, tasks) => {
@@ -61,7 +64,9 @@ router.post('/seeOwnTasks', (req, res) => {
             }).then(()=>{
                 res.send(taskMap)
             }
-            )
+            ).catch((err=>{
+                console.log(err)
+            }))
         }
         )
     }

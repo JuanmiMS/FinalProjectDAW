@@ -72,6 +72,8 @@ export default class addWork extends Component {
     axios.post("http://localhost:9000/api/works/add", { work })
       .then((response) => {
         console.log("RESPUESTA:", response)
+      }).catch((err)=>{
+        console.log('err', err)
       })
   }
 

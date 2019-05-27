@@ -56,8 +56,9 @@ class Login extends Component {
     let roomValue = document.getElementById('roomInput').value
     axios.post("http://localhost:9000/api/users/addRoom", {sala: roomValue, token: localStorage.getItem('SessionToken')})
       .then((response) => {
-        console.log('response', response)
+        
         if(response.status === 200){
+          localStorage.setItem('SessionToken', response.data.token);
           this.props.history.push('/')
         }
         else{

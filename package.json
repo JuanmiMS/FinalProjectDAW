@@ -20,6 +20,7 @@
     "react-dom": "^16.8.6",
     "react-drag-drawer": "^3.3.0",
     "react-google-login": "^5.0.4",
+    "react-input-number": "^5.0.16",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",

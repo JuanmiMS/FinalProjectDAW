@@ -20,10 +20,8 @@ export default class seeWork extends Component {
     sortTasks = arr => {
         if(arr !== undefined && arr.length !== 0){
             arr.sort( (a,b) => a.date.localeCompare(b.date) )
-            
             return arr.reverse()
         }
-        
     }
 
     componentWillMount() {
@@ -37,9 +35,7 @@ export default class seeWork extends Component {
             let data = { userId: this.state.googleId, room: this.state.room }
             axios.post("http://localhost:9000/api/works/seeOwnTasks", { data })
                 .then((response) => {
-                    console.log('response :', response.data);
                     this.setState({ data: this.sortTasks(response.data) }, () => {
-                        console.log('this.data :', this.state.data);
                     })
                 })
         })
