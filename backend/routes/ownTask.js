@@ -81,8 +81,16 @@ router.post('/updateTaskTokens', (req, res) => {
         (err, task) => {
             res.send(task)
         })
-    
-    
+})
+router.post('/updateTaskState', (req, res) => {
+    let id = req.body.data.id
+    let state = req.body.data.state
+    console.log('id, tokens :', id, state);
+    WorkPerUser.updateOne({ _id: id },
+        { $set: { actualState: state } },
+        (err, task) => {
+            res.send(task)
+        })
 })
 
 module.exports = router

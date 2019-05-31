@@ -22,7 +22,7 @@ export default class seeWork extends Component {
         this.logout()
         let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
         let id = this.props.match.params.taskId
-        let data = { id: this.props.match.params.taskId, googleId : infoUser.googleId}
+        let data = { id: this.props.match.params.taskId, googleId: infoUser.googleId }
         axios.post("http://localhost:9000/api/ownTask/seeUniqueWork", { data })
             .then((response) => {
                 const { title, description, date, completed, totalTokens, actualState, taskOwnId } = response.data
@@ -69,8 +69,8 @@ export default class seeWork extends Component {
         })
     }
 
-    updateCompleteStatus = _ =>{
-        let data = { id: this.state.taskOwnId, completed : this.state.completed }
+    updateCompleteStatus = _ => {
+        let data = { id: this.state.taskOwnId, completed: this.state.completed }
         axios.post("http://localhost:9000/api/ownTask/updateTaskFinish", { data })
             .then((response) => {
                 this.setState({
@@ -82,7 +82,7 @@ export default class seeWork extends Component {
     }
 
     deteleTask = _ => {
-        let data = { id: this.state.id, googleId : this.state.googleId }
+        let data = { id: this.state.id, googleId: this.state.googleId }
         axios.post("http://localhost:9000/api/ownTask/deleteTask", { data })
             .then((response) => {
                 console.log('response', response)
@@ -92,14 +92,38 @@ export default class seeWork extends Component {
     }
     updateTaskTokens = _ => {
         let tok = document.getElementsByClassName('css-11mdgg1-InputNumber')[0].value
-        this.setState({totalTokens : tok})
-        let data = { id: this.state.taskOwnId, tokens : tok}
+        this.setState({ totalTokens: tok })
+        let data = { id: this.state.taskOwnId, tokens: tok }
         axios.post("http://localhost:9000/api/ownTask/updateTaskTokens", { data })
             .then((response) => {
                 // console.log('response', response)
             }).catch((error) => {
                 // console.log('error :', error);
             })
+    }
+
+    getActualState = _ => {
+        return <select value={this.state.actualState} onChange={this.changeOption} id="actualState">
+            <option value="0">0 - Perdido</option>
+            <option value="1">1 - Con dificultades</option>
+            <option value="2">2 - Progresando con algunas dificultades</option>
+            <option value="3">3 - Completando sin problemas</option>
+        </select>
+    }
+
+    changeOption = event =>{
+        let actualState = document.getElementById('actualState').value
+        this.setState({
+            actualState
+        }, ()=>{
+            let data = { id: this.state.taskOwnId, state: actualState }
+            axios.post("http://localhost:9000/api/ownTask/updateTaskState", { data })
+                .then((response) => {
+                    // console.log('response', response)
+                }).catch((error) => {
+                    // console.log('error :', error);
+                })
+        })
     }
 
     render() {
@@ -126,11 +150,12 @@ export default class seeWork extends Component {
                             <h2>ID: {this.state.id}</h2>
                             <h2>Titulo: {this.state.title}</h2>
                             <h2>description: {this.state.description}</h2>
-                            <h2>Fecha: {this.state.date}</h2>        
-                            <h2>Tokens:  <InputNumber min={0} max={100} step={1} value={this.state.totalTokens} onChange={this.updateTaskTokens} enableMobileNumericKeyboard/></h2>
-                            <h2>Completed: {this.state.completed}</h2>
+                            <h2>Fecha: {this.state.date}</h2>
+                            <h2>Tokens:  <InputNumber min={0} max={100} step={1} value={this.state.totalTokens} onChange={this.updateTaskTokens} enableMobileNumericKeyboard /></h2>
+                            <h2>{this.state.completed}</h2>
                             {toggle}
-                            <h2>Estado actual: {this.state.actualState}</h2>
+                            <h2>Estado actual: {this.getActualState()}</h2>
+
                             <Link to="/seeWork"><button type="button" className="btn btn-primary">Ver Tareas</button></Link>
                             <p></p>
                             <button type="button" className="btn btn-danger" onClick={this.deteleTask}>Borrar tarea</button>
