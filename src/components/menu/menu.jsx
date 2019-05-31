@@ -40,7 +40,7 @@ export default class Menu extends Component {
         console.log("OK", jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret))
 
         //Falla llamada al pedir verificación
-        axios.get("http://juanmi.ovh/api/users/checkUser", { data: "AAAAAAAAAAAAAAAAA" }).then((response) => {
+        axios.get("http://localhost:9000/api/users/checkUser", { data: "AAAAAAAAAAAAAAAAA" }).then((response) => {
             console.log('response :', response.data);
         })
     }

@@ -6,6 +6,7 @@ import Login from './pages/Login/login';
 import Home from './pages/Home/home';
 import AddWork from './pages/AddWork/addWork';
 import SeeWork from './pages/SeeWork/seeWork';
+import TaskInfo from './pages/TaskInfo/taskInfo';
 
 let routing = (
     <Provider store={store}>
@@ -15,6 +16,7 @@ let routing = (
                 <Route path="/addRoom" component={Login} />
                 <Route path="/addWork" component={AddWork} />
                 <Route path="/seeWork" component={SeeWork} />
+                <Route path="/taskInfo/:taskId" component={TaskInfo} />
                 <Route path="/" component={Home} />
             </Switch>
         </BrowserRouter>
