@@ -72,6 +72,7 @@ export default class Menu extends Component {
                         
                         ---PROFESOR LINKS---
                         <Link to="/addWork"><li> Añadir tarea</li></Link>
+                        <Link to="/seeUsers"><li> Alumnos </li></Link>
                     </ul>
                 </div>
                 <button onClick={this.addBots}>addBots</button>
