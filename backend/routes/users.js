@@ -163,8 +163,22 @@ router.post('/addRoom', (req, res) => {
     )
 })
 
+router.post('/allUsers', (req, res) => {
 
-router.get("/checkUser", (req, res) => {
+    User.find({}).then((users=>{
+        res.json(users)
+    }))
+
+})
+
+
+// router.post('/allUsers/'), (req, res) => {
+//     User.find({}).then((users=>{
+//         res.json(users)
+//     }))
+// }
+
+router.get('/checkUser', (req, res) => {
     console.log('req', req)
     res.json(req)
 })
