@@ -48,6 +48,9 @@ router.post('/add', (req, res) => {
 
 //TODO lvl 5 error set headers. Still works :S
 router.post('/seeOwnTasks', (req, res) => {
+
+    console.log('req.body', req.body)
+
     let taskMap = []
     WorkPerUser.find({ userId: req.body.data.userId, room: req.body.data.room }, (err, tasks) => {
         tasks.forEach((task, index) => {

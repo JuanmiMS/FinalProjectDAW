@@ -111,11 +111,11 @@ export default class seeWork extends Component {
         </select>
     }
 
-    changeOption = event =>{
+    changeOption = event => {
         let actualState = document.getElementById('actualState').value
         this.setState({
             actualState
-        }, ()=>{
+        }, () => {
             let data = { id: this.state.taskOwnId, state: actualState }
             axios.post("http://localhost:9000/api/ownTask/updateTaskState", { data })
                 .then((response) => {

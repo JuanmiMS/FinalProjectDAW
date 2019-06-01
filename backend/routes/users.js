@@ -65,8 +65,39 @@ router.post('/', auth, (req, res) => {
             }
         }
     )
+
+    //TODO lvl 4, agrega 30 usuarios bot a la bbdd al iniciar sesión
+    // for (let i = 0; i < 30; i++) {      
+    //     let user2 = new User({
+    //         googleId: i,
+    //         name: "botUser"+i,
+    //         email: "botUser"+i+"@iesfbmoll.org",
+    //         imageUrl: "https://www.sideshow.com/storage/product-images/2172/r2-d2-deluxe_star-wars_feature.jpg",
+    //         room: 'testRoom',
+    //         rol: ''
+    //     })
+    //     console.log('user', user2)
+    //     user2.save()
+    // }
+    res.status(200)
 })
 
+router.post('/addRandoms'), (req, res)=>{
+   
+    for (let i = 0; i < 30; i++) {      
+        let user = new User({
+            googleId: i,
+            name: "botUser"+i,
+            email: "botUser"+i+"@iesfbmoll.org",
+            imageUrl: "https://www.sideshow.com/storage/product-images/2172/r2-d2-deluxe_star-wars_feature.jpg",
+            room: 'testRoom',
+            rol: ''
+        })
+        console.log('user', user)
+        user.save()
+    }
+    res.status(200)
+}
 
 //TODO lvl 5 crea/une al usuario a la sala
 router.post('/addRoom', (req, res) => {

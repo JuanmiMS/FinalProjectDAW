@@ -79,6 +79,8 @@ export default class addWork extends Component {
 
 
   dateSelected = date => {
+    console.log('date :', date.getTime());
+
     this.setState({ date })
   }
 
