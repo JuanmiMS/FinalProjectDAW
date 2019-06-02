@@ -110,7 +110,7 @@ export default class Home extends Component {
 
     const data01 = [
       { name: 'Terminadas', value: this.state.taskFinished, fill : "#228B22" },
-      { name: 'Sin Terminar', value: 12 - this.state.taskFinished, fill : "#DC143C"  }
+      { name: 'Sin Terminar', value: this.state.totalTasks - this.state.taskFinished, fill : "#DC143C"  }
     ];
 
     return (
