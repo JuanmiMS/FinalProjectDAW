@@ -179,6 +179,34 @@ router.post("/userInfo", (req, res) => {
         let taskFinished = 0
         let totalTokens = 0
         let actualStates = [0,0,0,0]
+        let userName = results[0].name
+        let imageUrl= results[0].imageUrl
+        
+        results.forEach((result)=>{
+            result.completed ? taskFinished++ : ""
+            totalTokens += result.totalTokens
+
+            //actualStateCount
+            result.actualState === 0 ? actualStates[0]++ : null
+            result.actualState === 1 ? actualStates[1]++ : null
+            result.actualState === 2 ? actualStates[2]++ : null
+            result.actualState === 3 ? actualStates[3]++ : null
+
+        })
+        res.send({totalTasks, taskFinished, totalTokens, actualStates, userName, imageUrl})
+      });
+})
+
+router.post("/allUserInfo", (req, res) => {
+
+
+    
+
+    WorkPerUser.find({room : req.body.data.room}).exec((err, results) => {
+        let totalTasks = results.length
+        let taskFinished = 0
+        let totalTokens = 0
+        let actualStates = [0,0,0,0]
         
         results.forEach((result)=>{
             result.completed ? taskFinished++ : ""

@@ -25,10 +25,12 @@ export default class SeeUsers extends Component {
     let data = { googleId: this.props.match.params.userId }
     axios.post("http://localhost:9000/api/users/userInfo", { data })
       .then((response) => {
-
+        console.log('response', response.data)
         this.setState({
           userId: infoUser.googleId,
-          user: response.data
+          user: response.data,
+          name: response.name,
+          imageUrl: response.imageUrl
         }, () => {
           console.log('this.state', this.state)
         })
@@ -48,7 +50,6 @@ export default class SeeUsers extends Component {
     }
     else {
       let infoUser = jwt.verify(localStorage.getItem('SessionToken'), "ReactForPresident")
-
       if (infoUser.rol !== "Profesor") {
         this.props.history.push('/')
       }
@@ -56,6 +57,7 @@ export default class SeeUsers extends Component {
         if (this.state.name !== infoUser.name) {
           this.setState({
             name: infoUser.name,
+            image: infoUser.imageUrl,
             googleId: infoUser.googleId,
             room: infoUser.room
           })
@@ -71,7 +73,6 @@ export default class SeeUsers extends Component {
   }
 
   getStateData = info => {
-    console.log('info :', info);
     let data = []
     if (info !== undefined) {
       data = [
@@ -92,14 +93,13 @@ export default class SeeUsers extends Component {
       return data
     }
 
-    console.log('data :', data);
   }
 
   render() {
 
     const data01 = [
-      { name: 'Terminadas', value: this.state.user.taskFinished, fill : "#228B22" },
-      { name: 'Sin Terminar', value: 12 - this.state.user.taskFinished, fill : "#DC143C"  }
+      { name: 'Terminadas', value: this.state.user.taskFinished, fill: "#228B22" },
+      { name: 'Sin Terminar', value: 12 - this.state.user.taskFinished, fill: "#DC143C" }
     ];
 
     return (
@@ -109,9 +109,12 @@ export default class SeeUsers extends Component {
             <div className="col-md-2 col-sm-4 sidebar1">
               <MenuHOC onLogout={this.logoutFather} />
             </div>
+            
             <div className="col-md-10 col-sm-8 main-content">
+            <img src={this.state.user.imageUrl} style={{ width: 100 }} />
+                {this.state.user.userName}
               <div className="container" style={{ marginTop: 50 }}>
-
+                
                 <div className="row">
 
                   <div className="col-sm-4">
@@ -121,9 +124,9 @@ export default class SeeUsers extends Component {
                           Tareas completas</h4>
                         <p className="group inner list-group-item-text">
                           {this.state.user.taskFinished}/{this.state.user.totalTasks}
-                          
+
                         </p>
-                        
+
                       </div>
                     </div>
                   </div>
@@ -160,7 +163,7 @@ export default class SeeUsers extends Component {
                     <Bar dataKey="Muy bien" fill="#228B22" />
                   </BarChart>
 
-                  
+
 
                 </div>
               </div>

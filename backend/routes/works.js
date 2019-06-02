@@ -28,12 +28,15 @@ router.post('/add', (req, res) => {
     work.save((err, workResponse) => {
         User.find({ room: workResponse.room }, (err, users) => {
             users.forEach((user) => {
+                console.log('user :', user);
                 let assingWork = new WorkPerUser({
                     userId: user.googleId,
                     workId: workResponse.id,
                     completed: false,
                     totalTokens: 0,
                     actualState : 0,
+                    imageUrl : user.imageUrl,
+                    name : user.name,
                     room: workResponse.room
                 })
 

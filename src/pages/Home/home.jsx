@@ -28,7 +28,6 @@ export default class Home extends Component {
 
       //Get tasks data
       let data = { googleId: this.state.googleId }
-      console.log('data :', data);
       axios.post("http://localhost:9000/api/users/userInfo", { data })
         .then((response) => {
 
@@ -59,14 +58,11 @@ export default class Home extends Component {
     let nextTasks = []
 
     tasks.forEach((task) => {
-      // console.log(task.date+" --- "+ new Date)
-      // console.log('task.date > new Date', task.date > new Date)
       // if (task.date > new Date){
       //   nextTasks.push(task)
       // }
     }
     )
-      console.log('nextTasks :', nextTasks);
 
 }
 
@@ -88,7 +84,6 @@ export default class Home extends Component {
 
 
   getStateData = info => {
-    console.log('info :', info);
     let data = []
     if (info !== undefined) {
       data = [
@@ -109,7 +104,6 @@ export default class Home extends Component {
       return data
     }
 
-    console.log('data :', data);
   }
 
   render() {
@@ -135,6 +129,7 @@ export default class Home extends Component {
                     <div className="thumbnail card">
                       <div className="caption card-body">
                         <h4 className="group card-title inner list-group-item-heading">
+                        {this.state.userName}
                           Tareas completas</h4>
                         <p className="group inner list-group-item-text">
                           {this.state.taskFinished}/{this.state.totalTasks}
