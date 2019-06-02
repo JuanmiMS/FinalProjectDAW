@@ -8,6 +8,7 @@ import AddWork from './pages/AddWork/addWork';
 import SeeWork from './pages/SeeWork/seeWork';
 import TaskInfo from './pages/TaskInfo/taskInfo';
 import SeeUsers from './pages/SeeUsers/seeUsers';
+import SeeUser from './pages/SeeUser/seeUser';
 
 let routing = (
     <Provider store={store}>
@@ -18,6 +19,7 @@ let routing = (
                 <Route path="/addWork" component={AddWork} />
                 <Route path="/seeWork" component={SeeWork} />
                 <Route path="/seeUsers" component={SeeUsers} />
+                <Route path="/seeUser/:userId" component={SeeUser} />
                 <Route path="/taskInfo/:taskId" component={TaskInfo} />
                 <Route path="/" component={Home} />
             </Switch>

@@ -4,6 +4,7 @@ const config = require('config')
 const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth')
 
+const WorkPerUser = require('../models/WorkPerUser')
 const User = require('../models/User')
 const Room = require('../models/Room')
 
@@ -171,12 +172,30 @@ router.post('/allUsers', (req, res) => {
 
 })
 
+router.post("/userInfo", (req, res) => {
 
-// router.post('/allUsers/'), (req, res) => {
-//     User.find({}).then((users=>{
-//         res.json(users)
-//     }))
-// }
+    WorkPerUser.find({userId : req.body.data.googleId}).exec((err, results) => {
+        let totalTasks = results.length
+        let taskFinished = 0
+        let totalTokens = 0
+        let actualStates = [0,0,0,0]
+        
+        results.forEach((result)=>{
+            result.completed ? taskFinished++ : ""
+            totalTokens += result.totalTokens
+
+            //actualStateCount
+            result.actualState === 0 ? actualStates[0]++ : null
+            result.actualState === 1 ? actualStates[1]++ : null
+            result.actualState === 2 ? actualStates[2]++ : null
+            result.actualState === 3 ? actualStates[3]++ : null
+
+        })
+        res.send({totalTasks, taskFinished, totalTokens, actualStates})
+      });
+})
+
+
 
 router.get('/checkUser', (req, res) => {
     console.log('req', req)

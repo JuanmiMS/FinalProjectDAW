@@ -1,74 +1,42 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
 import {
-  Pie, PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Bar, BarChart
+  PieChart, Pie, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar
 } from 'recharts';
+import { Link } from 'react-router-dom';
 import axios from 'axios'
-// const config = require('config')
+const config = require('config')
 const jwt = require('jsonwebtoken')
 
-export default class Home extends Component {
-
+export default class SeeUsers extends Component {
 
   constructor(props) {
     super(props)
     this.state = ({
-      redirect: false
+      redirect: false,
+      user: []
     })
   }
 
   componentWillMount() {
     this.logout()
 
-    //TODO lvl 2 cambiar por variable de entorno el secreto
     let infoUser = jwt.verify(localStorage.getItem('SessionToken'), "ReactForPresident")
-    this.setState({
-      googleId: infoUser.googleId
-    }, () => {
+    let data = { googleId: this.props.match.params.userId }
+    axios.post("http://localhost:9000/api/users/userInfo", { data })
+      .then((response) => {
 
-      //Get tasks data
-      let data = { googleId: this.state.googleId }
-      console.log('data :', data);
-      axios.post("http://localhost:9000/api/users/userInfo", { data })
-        .then((response) => {
-
-          const { taskFinished, totalTasks, totalTokens, actualStates } = response.data
-          this.setState({
-            room: infoUser.room,
-            taskFinished,
-            totalTasks,
-            totalTokens,
-            actualStates
-          }, () => {
-
-            data = { userId: this.state.googleId, room: this.state.room }
-            axios.post("http://localhost:9000/api/works/seeOwnTasks", { data })
-              .then((response) => {
-                this.setState({ data: this.filterDate(response.data) }, () => {
-                })
-              })
-          })
-        }).catch((error) => {
-          console.log('error :', error);
+        this.setState({
+          userId: infoUser.googleId,
+          user: response.data
+        }, () => {
+          console.log('this.state', this.state)
         })
-    })
+
+      }).catch((error) => {
+        console.log('error :', error);
+      })
   }
-
-  filterDate = tasks => {
-    let actualDate = new Date()
-    let nextTasks = []
-
-    tasks.forEach((task) => {
-      // console.log(task.date+" --- "+ new Date)
-      // console.log('task.date > new Date', task.date > new Date)
-      // if (task.date > new Date){
-      //   nextTasks.push(task)
-      // }
-    }
-    )
-      console.log('nextTasks :', nextTasks);
-
-}
 
   componentDidUpdate() {
     this.logout()
@@ -78,6 +46,22 @@ export default class Home extends Component {
     if (!localStorage.getItem('SessionToken') || this.state.redirect) {
       this.props.history.push('/login')
     }
+    else {
+      let infoUser = jwt.verify(localStorage.getItem('SessionToken'), "ReactForPresident")
+
+      if (infoUser.rol !== "Profesor") {
+        this.props.history.push('/')
+      }
+      else {
+        if (this.state.name !== infoUser.name) {
+          this.setState({
+            name: infoUser.name,
+            googleId: infoUser.googleId,
+            room: infoUser.room
+          })
+        }
+      }
+    }
   }
 
   logoutFather = _ => {
@@ -85,7 +69,6 @@ export default class Home extends Component {
       console.log('LOGOUT!');
     })
   }
-
 
   getStateData = info => {
     console.log('info :', info);
@@ -115,8 +98,8 @@ export default class Home extends Component {
   render() {
 
     const data01 = [
-      { name: 'Terminadas', value: this.state.taskFinished, fill : "#228B22" },
-      { name: 'Sin Terminar', value: 12 - this.state.taskFinished, fill : "#DC143C"  }
+      { name: 'Terminadas', value: this.state.user.taskFinished, fill : "#228B22" },
+      { name: 'Sin Terminar', value: 12 - this.state.user.taskFinished, fill : "#DC143C"  }
     ];
 
     return (
@@ -137,8 +120,10 @@ export default class Home extends Component {
                         <h4 className="group card-title inner list-group-item-heading">
                           Tareas completas</h4>
                         <p className="group inner list-group-item-text">
-                          {this.state.taskFinished}/{this.state.totalTasks}
+                          {this.state.user.taskFinished}/{this.state.user.totalTasks}
+                          
                         </p>
+                        
                       </div>
                     </div>
                   </div>
@@ -148,32 +133,18 @@ export default class Home extends Component {
                         <h4 className="group card-title inner list-group-item-heading">
                           Tokens totales</h4>
                         <p className="group inner list-group-item-text">
-                          {this.state.totalTokens}</p>
-
+                          {this.state.user.totalTokens}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="col-sm-4">
-                    <div className="thumbnail card">
-                      <div className="caption card-body">
-                        <h4 className="group card-title inner list-group-item-heading">
-                          Próxima tarea</h4>
-                        <p className="group inner list-group-item-text">
-                          0/0
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
                   <PieChart width={400} height={400}>
                     <Pie dataKey="value" isAnimationActive={false} data={data01} cx={200} cy={200} outerRadius={80} label />
                     <Tooltip />
                   </PieChart>
-
                   <BarChart
                     width={500}
                     height={300}
-                    data={this.getStateData(this.state.actualStates)}
+                    data={this.getStateData(this.state.user.actualStates)}
                     margin={{
                       top: 5, right: 30, left: 20, bottom: 5,
                     }}
@@ -188,6 +159,8 @@ export default class Home extends Component {
                     <Bar dataKey="Bien" fill="#00BFFF" />
                     <Bar dataKey="Muy bien" fill="#228B22" />
                   </BarChart>
+
+                  
 
                 </div>
               </div>
