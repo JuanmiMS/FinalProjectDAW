@@ -3,7 +3,8 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
-    background: #d7e7ec !important;
+    background: rgb(242, 237, 243);
+    /* background:  !important; */
 }
 .user_card {
     height: 200px;

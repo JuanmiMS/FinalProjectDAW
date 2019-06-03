@@ -60,8 +60,6 @@ export default class Menu extends Component {
   render() {
     return (
       <div>
-        <div className="container-fluid page-body-wrapper">
-          <nav className="sidebar sidebar-offcanvas" id="sidebar">
             <ul className="nav">
               <li className="nav-item nav-profile">
                 <a href="#" className="nav-link">
@@ -102,15 +100,11 @@ export default class Menu extends Component {
               </li>
 
               <li className="nav-item sidebar-actions">
-                  
                   <Link to="/addWork">
                     <button className="btn btn-block btn-lg btn-gradient-primary mt-4">Agregar tarea</button>
                   </Link>
               </li>
             </ul>
-          </nav>
-
-        </div>
       </div>
 
 

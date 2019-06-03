@@ -8663,6 +8663,7 @@
     color: #343a40;
     text-align: left;
     background-color: #fff;
+    
   }
   
   [tabindex="-1"]:focus {
@@ -12654,6 +12655,7 @@
   }
   
   .card {
+    height: 140px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -18518,6 +18520,9 @@
   }
   
   .main-panel {
+    margin-left:20px;
+    margin-right:20px;
+    margin-top: 50px;
     transition: width 0.25s ease, margin 0.25s ease;
     width: calc(100% - 260px);
     min-height: calc(100vh - 70px);
@@ -20937,5 +20942,9 @@
     color: initial;
   }
   
+  .center-text{
+    text-align: center
+  }
+
   /*# sourceMappingURL=maps/style.css.map */
   
