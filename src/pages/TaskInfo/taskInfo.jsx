@@ -23,7 +23,7 @@ export default class seeWork extends Component {
         let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
         let id = this.props.match.params.taskId
         let data = { id: this.props.match.params.taskId, googleId: infoUser.googleId }
-        axios.post("http://localhost:9000/api/ownTask/seeUniqueWork", { data })
+        axios.post("http://juanmi.ovh:9000/api/ownTask/seeUniqueWork", { data })
             .then((response) => {
                 const { title, description, date, completed, totalTokens, actualState, taskOwnId } = response.data
                 this.setState({
@@ -71,7 +71,7 @@ export default class seeWork extends Component {
 
     updateCompleteStatus = _ => {
         let data = { id: this.state.taskOwnId, completed: this.state.completed }
-        axios.post("http://localhost:9000/api/ownTask/updateTaskFinish", { data })
+        axios.post("http://juanmi.ovh:9000/api/ownTask/updateTaskFinish", { data })
             .then((response) => {
                 this.setState({
                     completed: !this.state.completed
@@ -83,7 +83,7 @@ export default class seeWork extends Component {
 
     deteleTask = _ => {
         let data = { id: this.state.id, googleId: this.state.googleId }
-        axios.post("http://localhost:9000/api/ownTask/deleteTask", { data })
+        axios.post("http://juanmi.ovh:9000/api/ownTask/deleteTask", { data })
             .then((response) => {
                 console.log('response', response)
             }).catch((error) => {
@@ -94,7 +94,7 @@ export default class seeWork extends Component {
         let tok = document.getElementsByClassName('css-11mdgg1-InputNumber')[0].value
         this.setState({ totalTokens: tok })
         let data = { id: this.state.taskOwnId, tokens: tok }
-        axios.post("http://localhost:9000/api/ownTask/updateTaskTokens", { data })
+        axios.post("http://juanmi.ovh:9000/api/ownTask/updateTaskTokens", { data })
             .then((response) => {
                 // console.log('response', response)
             }).catch((error) => {
@@ -117,7 +117,7 @@ export default class seeWork extends Component {
             actualState
         }, () => {
             let data = { id: this.state.taskOwnId, state: actualState }
-            axios.post("http://localhost:9000/api/ownTask/updateTaskState", { data })
+            axios.post("http://juanmi.ovh:9000/api/ownTask/updateTaskState", { data })
                 .then((response) => {
                     // console.log('response', response)
                 }).catch((error) => {

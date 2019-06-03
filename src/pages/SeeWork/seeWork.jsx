@@ -33,7 +33,7 @@ export default class seeWork extends Component {
             room: infoUser.room
         }, () => {
             let data = { userId: this.state.googleId, room: this.state.room }
-            axios.post("http://localhost:9000/api/works/seeOwnTasks", { data })
+            axios.post("http://juanmi.ovh:9000/api/works/seeOwnTasks", { data })
                 .then((response) => {
                     this.setState({ data: this.sortTasks(response.data) }, () => {
                     })

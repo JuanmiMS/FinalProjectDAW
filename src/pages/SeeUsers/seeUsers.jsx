@@ -23,7 +23,7 @@ export default class SeeUsers extends Component {
     //TODO lvl 2 cambiar por variable de entorno el secreto
     let infoUser = jwt.verify(localStorage.getItem('SessionToken'), "ReactForPresident")
     let data = { room: infoUser.room }
-    axios.post("http://localhost:9000/api/users/allUsers", { data })
+    axios.post("http://juanmi.ovh:9000/api/users/allUsers", { data })
       .then((response) => {
 
         this.setState({
@@ -37,7 +37,7 @@ export default class SeeUsers extends Component {
         console.log('error :', error);
       })
 
-    axios.post("http://localhost:9000/api/users/allUserInfo", { data })
+    axios.post("http://juanmi.ovh:9000/api/users/allUserInfo", { data })
       .then((response) => {
 
         this.setState({

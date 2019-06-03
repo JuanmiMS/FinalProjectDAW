@@ -39,12 +39,12 @@ export default class Menu extends Component {
 
         
         //Falla llamada al pedir verificación
-        axios.get("http://localhost:9000/api/users/checkUser", { data: "AAAAAAAAAAAAAAAAA" }).then((response) => {
+        axios.get("http://juanmi.ovh:9000/api/users/checkUser", { data: "AAAAAAAAAAAAAAAAA" }).then((response) => {
             console.log('response :', response.data);
         })
     }
     addBots = () => {
-        axios.post("http://localhost:9000/api/users/addRandoms").then((response) => {
+        axios.post("http://juanmi.ovh:9000/api/users/addRandoms").then((response) => {
             console.log('response :', response.data);
         })
     }

@@ -28,7 +28,7 @@ export default class Home extends Component {
 
       //Get tasks data
       let data = { googleId: this.state.googleId }
-      axios.post("http://localhost:9000/api/users/userInfo", { data })
+      axios.post("http://juanmi.ovh:9000/api/users/userInfo", { data })
         .then((response) => {
 
           const { taskFinished, totalTasks, totalTokens, actualStates } = response.data
@@ -41,7 +41,7 @@ export default class Home extends Component {
           }, () => {
 
             data = { userId: this.state.googleId, room: this.state.room }
-            axios.post("http://localhost:9000/api/works/seeOwnTasks", { data })
+            axios.post("http://juanmi.ovh:9000/api/works/seeOwnTasks", { data })
               .then((response) => {
                 this.setState({ data: this.filterDate(response.data) }, () => {
                 })

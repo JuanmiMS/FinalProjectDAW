@@ -23,7 +23,7 @@ export default class SeeUsers extends Component {
 
     let infoUser = jwt.verify(localStorage.getItem('SessionToken'), "ReactForPresident")
     let data = { googleId: this.props.match.params.userId }
-    axios.post("http://localhost:9000/api/users/userInfo", { data })
+    axios.post("http://juanmi.ovh:9000/api/users/userInfo", { data })
       .then((response) => {
         console.log('response', response.data)
         this.setState({
