@@ -25,6 +25,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-toggle": "^4.0.2",
+    "recharts": "^1.6.2",
     "redux": "^4.0.1"
   },
   "scripts": {

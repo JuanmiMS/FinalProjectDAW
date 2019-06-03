@@ -25,7 +25,18 @@ const WorkPerUserSchema = Schema({
     room : {
         type: String,
         require: true
+    
+    },
+    imageUrl : {
+        type: String,
+        require: true
+
+    },
+    name : {
+        type: String,
+        require: true
     }
-})
+}
+)
 
 module.exports = workPerUser = mongoose.model('workPerUser', WorkPerUserSchema)

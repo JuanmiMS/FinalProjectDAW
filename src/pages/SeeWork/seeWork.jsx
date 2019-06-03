@@ -101,9 +101,10 @@ export default class seeWork extends Component {
                         <div className="col-md-10 col-sm-8 main-content">
                             <div className="container" style={{ marginTop: 50 }}>
                                 <div id="products">
+                                    <div className="row">
                                     {this.state.data.map((task, index) => (
                                         <Link to={`/taskInfo/${task.idWork}`} key={`carta` + index}>
-                                        <div id={`carta` + index}  className="item col-xs-4 col-lg-4">
+                                        <div id={`carta` + index}  className="col-4">
                                             <div className="thumbnail card" style={{backgroundColor: this.isFinished(task.completed)}}>
                                                 <div className="caption card-body">
                                                     <h4 className="group card-title inner list-group-item-heading">
@@ -112,7 +113,6 @@ export default class seeWork extends Component {
                                                         {this.formatText(task.description)}</p>
                                                     <div className="row">
                                                         <div className="col-xs-12 col-md-6">
-
                                                             <p className="lead">
                                                                 Tokens: {task.totalTokens}
                                                             </p>
@@ -126,6 +126,7 @@ export default class seeWork extends Component {
                                         </div>
                                         </Link>
                                     ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

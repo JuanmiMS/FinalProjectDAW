@@ -4,6 +4,7 @@ const config = require('config')
 const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth')
 
+const WorkPerUser = require('../models/WorkPerUser')
 const User = require('../models/User')
 const Room = require('../models/Room')
 
@@ -65,8 +66,39 @@ router.post('/', auth, (req, res) => {
             }
         }
     )
+
+    //TODO lvl 4, agrega 30 usuarios bot a la bbdd al iniciar sesión
+    // for (let i = 0; i < 30; i++) {      
+    //     let user2 = new User({
+    //         googleId: i,
+    //         name: "botUser"+i,
+    //         email: "botUser"+i+"@iesfbmoll.org",
+    //         imageUrl: "https://www.sideshow.com/storage/product-images/2172/r2-d2-deluxe_star-wars_feature.jpg",
+    //         room: 'testRoom',
+    //         rol: ''
+    //     })
+    //     console.log('user', user2)
+    //     user2.save()
+    // }
+    res.status(200)
 })
 
+router.post('/addRandoms'), (req, res)=>{
+   
+    for (let i = 0; i < 30; i++) {      
+        let user = new User({
+            googleId: i,
+            name: "botUser"+i,
+            email: "botUser"+i+"@iesfbmoll.org",
+            imageUrl: "https://www.sideshow.com/storage/product-images/2172/r2-d2-deluxe_star-wars_feature.jpg",
+            room: 'testRoom',
+            rol: ''
+        })
+        console.log('user', user)
+        user.save()
+    }
+    res.status(200)
+}
 
 //TODO lvl 5 crea/une al usuario a la sala
 router.post('/addRoom', (req, res) => {
@@ -132,8 +164,68 @@ router.post('/addRoom', (req, res) => {
     )
 })
 
+router.post('/allUsers', (req, res) => {
 
-router.get("/checkUser", (req, res) => {
+    User.find({}).then((users=>{
+        res.json(users)
+    }))
+
+})
+
+router.post("/userInfo", (req, res) => {
+
+    WorkPerUser.find({userId : req.body.data.googleId}).exec((err, results) => {
+        let totalTasks = results.length
+        let taskFinished = 0
+        let totalTokens = 0
+        let actualStates = [0,0,0,0]
+        let userName = results[0].name
+        let imageUrl= results[0].imageUrl
+        
+        results.forEach((result)=>{
+            result.completed ? taskFinished++ : ""
+            totalTokens += result.totalTokens
+
+            //actualStateCount
+            result.actualState === 0 ? actualStates[0]++ : null
+            result.actualState === 1 ? actualStates[1]++ : null
+            result.actualState === 2 ? actualStates[2]++ : null
+            result.actualState === 3 ? actualStates[3]++ : null
+
+        })
+        res.send({totalTasks, taskFinished, totalTokens, actualStates, userName, imageUrl})
+      });
+})
+
+router.post("/allUserInfo", (req, res) => {
+
+
+    
+
+    WorkPerUser.find({room : req.body.data.room}).exec((err, results) => {
+        let totalTasks = results.length
+        let taskFinished = 0
+        let totalTokens = 0
+        let actualStates = [0,0,0,0]
+        
+        results.forEach((result)=>{
+            result.completed ? taskFinished++ : ""
+            totalTokens += result.totalTokens
+
+            //actualStateCount
+            result.actualState === 0 ? actualStates[0]++ : null
+            result.actualState === 1 ? actualStates[1]++ : null
+            result.actualState === 2 ? actualStates[2]++ : null
+            result.actualState === 3 ? actualStates[3]++ : null
+
+        })
+        res.send({totalTasks, taskFinished, totalTokens, actualStates})
+      });
+})
+
+
+
+router.get('/checkUser', (req, res) => {
     console.log('req', req)
     res.json(req)
 })

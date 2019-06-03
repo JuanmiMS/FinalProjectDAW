@@ -6,8 +6,6 @@ import axios from 'axios'
 const jwt = require('jsonwebtoken')
 const config = require('../../config/default')
 
-
-
 export default class addWork extends Component {
 
   constructor(props) {
@@ -79,6 +77,8 @@ export default class addWork extends Component {
 
 
   dateSelected = date => {
+    console.log('date :', date.getTime());
+
     this.setState({ date })
   }
 

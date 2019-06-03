@@ -28,12 +28,15 @@ router.post('/add', (req, res) => {
     work.save((err, workResponse) => {
         User.find({ room: workResponse.room }, (err, users) => {
             users.forEach((user) => {
+                console.log('user :', user);
                 let assingWork = new WorkPerUser({
                     userId: user.googleId,
                     workId: workResponse.id,
                     completed: false,
                     totalTokens: 0,
                     actualState : 0,
+                    imageUrl : user.imageUrl,
+                    name : user.name,
                     room: workResponse.room
                 })
 
@@ -48,6 +51,9 @@ router.post('/add', (req, res) => {
 
 //TODO lvl 5 error set headers. Still works :S
 router.post('/seeOwnTasks', (req, res) => {
+
+    console.log('req.body', req.body)
+
     let taskMap = []
     WorkPerUser.find({ userId: req.body.data.userId, room: req.body.data.room }, (err, tasks) => {
         tasks.forEach((task, index) => {
