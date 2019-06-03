@@ -28,6 +28,8 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.use(express.static(path.join(__dirname, '../build')));
 app.use('/api/users', require('./routes/users'))
 app.use('/api/works', require('./routes/works'))
+app.use('/api/ownTask', require('./routes/ownTask'))
+app.use('/api/home', require('./routes/home'))
 
 
 app.get('*', function(req, res) {

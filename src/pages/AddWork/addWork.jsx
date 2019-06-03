@@ -6,8 +6,6 @@ import axios from 'axios'
 const jwt = require('jsonwebtoken')
 const config = require('../../config/default')
 
-
-
 export default class addWork extends Component {
 
   constructor(props) {
@@ -67,14 +65,20 @@ export default class addWork extends Component {
       limitDate : this.state.date,
       room : this.state.room
     }
-    axios.post("http://juanmi.ovh:9000/api/works/add", { work })
+
+    console.log('work', work)
+    axios.post("http://localhost:9000/api/works/add", { work })
       .then((response) => {
         console.log("RESPUESTA:", response)
+      }).catch((err)=>{
+        console.log('err', err)
       })
   }
 
 
   dateSelected = date => {
+    console.log('date :', date.getTime());
+
     this.setState({ date })
   }
 
