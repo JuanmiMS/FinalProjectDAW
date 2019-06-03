@@ -102,6 +102,7 @@ export default class seeWork extends Component {
                             <div className="container" style={{ marginTop: 50 }}>
                                 <div id="products">
                                     <div className="row">
+
                                     {this.state.data.map((task, index) => (
                                         <Link to={`/taskInfo/${task.idWork}`} key={`carta` + index}>
                                         <div id={`carta` + index}  className="col-4">
