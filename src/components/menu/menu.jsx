@@ -74,6 +74,7 @@ export default class Menu extends Component {
                     <span className="text-secondary text-small">{this.state.rol}</span>
                   </div>
                 </a>
+                  <button onClick={this.logout} className="btn btn-sm btn-danger">logout</button>
               </li>
               <li className="nav-item sidebar-actions">
                 <span className="nav-link">
