@@ -18,8 +18,8 @@ export default class seeWork extends Component {
     }
 
     sortTasks = arr => {
-        if(arr !== undefined && arr.length !== 0){
-            arr.sort( (a,b) => a.date.localeCompare(b.date) )
+        if (arr !== undefined && arr.length !== 0) {
+            arr.sort((a, b) => a.date.localeCompare(b.date))
             return arr.reverse()
         }
     }
@@ -84,7 +84,7 @@ export default class seeWork extends Component {
     }
 
     isFinished = isComplete => {
-        return isComplete ? "#c8f7ce" : "#ffcfc6"
+        return isComplete ? "card bg-gradient-success card-img-holder text-white" : "card bg-gradient-danger card-img-holder text-white"
     }
 
 
@@ -92,7 +92,47 @@ export default class seeWork extends Component {
 
 
         return (
+
             <div>
+                <div className="container-scroller">
+                    <div className="container-fluid page-body-wrapper">
+                        <nav className="sidebar sidebar-offcanvas" id="sidebar">
+                            <MenuHOC onLogout={this.logoutFather} />
+                        </nav>
+                        <div className="main-panel">
+                            <div className="content-wrapper">
+                                <div className="row">
+                                    
+                                    {this.state.data.map((task, index) => (
+                                        
+                                        <div className="col-4 stretch-card grid-margin">
+                                            {/* <div className="card bg-gradient-success card-img-holder text-white"> */}
+                                            <div className={this.isFinished(task.completed)}>
+                                                <div className="card-body">
+                                                    <img src="images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
+                                                    <h2 className="font-weight-normal mb-3">{task.title}
+                                                            <i className="mdi mdi-diamond mdi-24px float-right"></i>
+                                                    </h2>
+                                                    <div className="mb-">
+                                                    <h4>Finish date: {task.date}</h4>
+                                                    <Link to={`/taskInfo/${task.idWork}`} key={`carta` + index}>
+                                                    <button style={{float: "right"}} type="button" className="btn btn-gradient-primary btn-fw">Ver tarea</button>
+                                                    </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                       
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            /* <div>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-2 col-sm-4 sidebar1">
@@ -133,7 +173,7 @@ export default class seeWork extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */
         )
     }
 }

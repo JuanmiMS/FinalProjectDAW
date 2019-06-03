@@ -85,12 +85,39 @@ export default class addWork extends Component {
   render() {
     return (
       <div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-2 col-sm-4 sidebar1">
+        <div className="container-scroller">
+          <div className="container-fluid page-body-wrapper">
+            <nav className="sidebar sidebar-offcanvas" id="sidebar">
               <MenuHOC onLogout={this.logoutFather} />
+            </nav>
+            <div className="main-panel">        
+        <div className="content-wrapper">
+          <div className="page-header">
+          </div>
+          <div className="row">
+            <div className="col-md-12 grid-margin stretch-card">
+              <div className="card">
+                <div className="card-body add-style">
+                  <h4 className="card-title">Agregar tarea</h4>
+                  <p className="card-description">
+                    Agregar una nueva tarea
+                  </p>
+                  <form className="forms-sample">
+                    <div className="form-group">
+                      <label for="exampleInputUsername1">Titulo</label>
+                      <input type="text" className="form-control" id="title" placeholder="Titulo" />
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleTextarea1">Enunciado</label>
+                      <textarea class="form-control" id="description" rows="40"></textarea>
+                    </div>
+                    <button onClick={this.addWork} className="btn btn-gradient-primary mr-2">Submit</button>
+                  </form>
+                </div>
+              </div>
             </div>
-            <div className="col-md-10 col-sm-8 main-content">
+{/* 
+              <div className="row">
               <div className="container-fluid">
                 <div className="container">
                   <div className="formBox">
@@ -132,7 +159,10 @@ export default class addWork extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+          </div>
+          </div>
+          </div>
           </div>
         </div>
       </div>
