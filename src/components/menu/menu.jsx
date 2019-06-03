@@ -106,26 +106,6 @@ export default class Menu extends Component {
               </li>
             </ul>
       </div>
-
-
-      /* <div className="logo">
-          <img src={this.state.imageUrl} className="img-responsive center-block" alt="Logo" />
-      </div>
-      <div className="left-navigation">
-          <ul className="list">
-              <h5><strong>{this.state.rol} {this.state.name}</strong></h5>
-              <h5><strong>SALA: {this.state.room}</strong></h5>
-              <Link to="/"><li> Inicio</li></Link>
-              <Link to="/seeWork"><li> Ver tareas</li></Link>
-              
-              ---PROFESOR LINKS---
-              <Link to="/addWork"><li> Añadir tarea</li></Link>
-              <Link to="/seeUsers"><li> Alumnos </li></Link>
-          </ul>
-      </div>
-      <button onClick={this.addBots}>addBots</button>
-      <button onClick={this.logout}>logout</button>
-  </div> */
     )
   }
 }

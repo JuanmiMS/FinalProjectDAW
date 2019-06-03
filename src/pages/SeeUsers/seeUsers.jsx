@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import './seeUsers.css'
 const config = require('config')
 const jwt = require('jsonwebtoken')
 
@@ -115,21 +116,57 @@ export default class SeeUsers extends Component {
 
     return (
       <div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-2 col-sm-4 sidebar1">
+        <div className="container-scroller">
+          <div className="container-fluid page-body-wrapper">
+            <nav className="sidebar sidebar-offcanvas" id="sidebar">
               <MenuHOC onLogout={this.logoutFather} />
+            </nav>
+            <div className="main-panel">
+
+              <div className="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body  table-style">
+                  <h4 class="card-title">Striped Table</h4>
+                  <table class="table table-striped .table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Usuario</th>
+                        <th> Nombre</th>
+                        <th>Progreso</th>
+                        <th>Tokens Totales</th>
+                        <th> Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {this.state.users.map((user, index) => (
+                      <tr>
+                        <td class="py-1">
+                          <img src={user.imageUrl} alt="image"/>
+                        </td>
+                        <td>
+                        <Link to={`/seeUser/${user.googleId}`} key={`carta` + index}>{user.name}</Link>
+                        </td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style={{width: "90%"}} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </td>
+                        <td>
+                          15
+                        </td>
+                        <td>
+                        {user.email}
+                        </td>
+                      </tr>
+                       ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div className="col-md-10 col-sm-8 main-content">
-              <div className="container" style={{ marginTop: 50 }}>
-
-
-
-
-
-                <div className="row">
-
-                  <div className="col-sm-4">
+          </div>
+                  {/* <div className="col-sm-4">
                     <div className="thumbnail card">
                       <div className="caption card-body">
                         <h4 className="group card-title inner list-group-item-heading">
@@ -194,21 +231,10 @@ export default class SeeUsers extends Component {
               </div>
 
 
-
-              <div className="row">
-                <table className="table">
-                  <thead className="thead-dark">
-                    <tr>
-                      <th scope="col"></th>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">email</th>
-                      <th scope="col">Id</th>
-                    </tr>
-                  </thead>
                   <tbody>
                     {this.state.users.map((user, index) => (
                       <tr>
-                        <th scope="row"><img src={user.imageUrl} style={{ width: "50px" }} /></th>
+                        <th scope="row"><img src={user.imageUrl} style={{ width: ""50px" }} /></th>
                         <td>{user.name}</td>
                         <td>{user.email}</td>
                         <td><Link to={`/seeUser/${user.googleId}`} key={`carta` + index}>{user.googleId}</Link></td>
@@ -217,10 +243,11 @@ export default class SeeUsers extends Component {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div> */}
 
 
-          </div>
+        </div>
+        </div>
         </div>
       </div>
     )
