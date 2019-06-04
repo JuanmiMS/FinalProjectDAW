@@ -33,7 +33,7 @@ router.post('/', auth, (req, res) => {
                     email: email,
                     imageUrl: imageUrl,
                     room: 'testRoom',
-                    rol: 'Profesor'
+                    rol: ''
                 })
                 user.save()
 
