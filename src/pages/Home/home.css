@@ -1,0 +1,17 @@
+.bar-chart-cell{
+    height: 394px;
+    min-width: 600px !important; 
+    width: 676px !important;
+}
+.bar-chart-cell-pie{
+    height: 394px;
+    min-width: 500px !important; 
+    width: 526px !important;
+}
+.pie-chart-css {
+    margin-top:-90px;
+}
+.recharts-legend-wrapper{
+    left: 68px !important;
+bottom : -50px !important;
+}

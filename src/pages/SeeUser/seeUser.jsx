@@ -75,6 +75,7 @@ export default class SeeUsers extends Component {
   getStateData = info => {
     let data = []
     if (info !== undefined) {
+      
       data = [
         {
           Mal: info[0]
@@ -97,74 +98,103 @@ export default class SeeUsers extends Component {
 
   render() {
 
-    const data01 = [
-      { name: 'Terminadas', value: this.state.user.taskFinished, fill: "#228B22" },
-      { name: 'Sin Terminar', value: 12 - this.state.user.taskFinished, fill: "#DC143C" }
+    const data = [
+      { name: 'Terminadas', value: this.state.user.taskFinished, fill: "#24D0B7" },
+      { name: 'Sin Terminar', value: 12 - this.state.user.taskFinished, fill: "#ef6464" }
     ];
 
     return (
-      <div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-2 col-sm-4 sidebar1">
+
+<div>
+        <div className="container-scroller">
+          <div className="container-fluid page-body-wrapper">
+            <nav className="sidebar sidebar-offcanvas" id="sidebar">
               <MenuHOC onLogout={this.logoutFather} />
-            </div>
-            
-            <div className="col-md-10 col-sm-8 main-content">
-            <img src={this.state.user.imageUrl} style={{ width: 100 }} />
-                {this.state.user.userName}
-              <div className="container" style={{ marginTop: 50 }}>
-                
-                <div className="row">
+            </nav>
+            <div className="main-panel">
 
-                  <div className="col-sm-4">
-                    <div className="thumbnail card">
-                      <div className="caption card-body">
-                        <h4 className="group card-title inner list-group-item-heading">
-                          Tareas completas</h4>
-                        <p className="group inner list-group-item-text">
-                          {this.state.user.taskFinished}/{this.state.user.totalTasks}
-
-                        </p>
-
-                      </div>
+              <div className="row">
+                <div className="col-md-4 stretch-card grid-margin">
+                  <div className="card bg-gradient-success card-img-holder text-white">
+                    <div className="card-body">
+                      <img src="../images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
+                      <h4 className="font-weight-normal mb-3 center-text">Tareas completadas
+                    <i className="mdi mdi-chart-line mdi-24px float-right"></i>
+                      </h4>
+                      <h2 className="mb-5 center-text">{this.state.user.taskFinished}</h2>
                     </div>
                   </div>
-                  <div className="col-sm-4">
-                    <div className="thumbnail card">
-                      <div className="caption card-body">
-                        <h4 className="group card-title inner list-group-item-heading">
-                          Tokens totales</h4>
-                        <p className="group inner list-group-item-text">
-                          {this.state.user.totalTokens}</p>
-                      </div>
+                </div>
+                <div className="col-md-4 stretch-card grid-margin">
+                  <div className="card bg-gradient-danger card-img-holder text-white">
+                    <div className="card-body">
+                      <img src="../images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
+                      <h4 className="font-weight-normal mb-3 center-text">Tareas sin completar
+                    <i className="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                      </h4>
+                      <h2 className="mb-5 center-text">{this.state.user.totalTasks - this.state.user.taskFinished}</h2>
                     </div>
                   </div>
-                  <PieChart width={400} height={400}>
-                    <Pie dataKey="value" isAnimationActive={false} data={data01} cx={200} cy={200} outerRadius={80} label />
+                </div>
+
+                <div className="col-md-4 stretch-card grid-margin">
+                  <div className="card bg-gradient-info card-img-holder text-white">
+                    <div className="card-body">
+                      <img src="../images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
+                      <h4 className="font-weight-normal mb-3 center-text">Tokens totales
+                    <i className="mdi mdi-diamond mdi-24px float-right center-text"></i>
+                      </h4>
+                      <h2 className="mb-5 center-text">{this.state.user.totalTokens}</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-md-5 grid-margin stretch-card">
+                  <div className="card bar-chart-cell">
+                    <div className="card-body">
+                      <div className="clearfix">
+                        <h4 className="card-title float-left">Estado de las tareas</h4>
+                        <div id="visit-sale-chart-legend" className="rounded-legend legend-horizontal legend-top-right float-right">
+                        
+                        </div>
+                        <BarChart
+                        width={500}
+                        height={300}
+                        data={this.getStateData(this.state.user.actualStates)}
+                        margin={{
+                          top: 5, right: 30, left: 20, bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="1 4" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="Mal" fill="#ef6464" />
+                        <Bar dataKey="Regular" fill="#FFBE96" />
+                        <Bar dataKey="Bien" fill="#2892E6" />
+                        <Bar dataKey="Muy bien" fill="#24D0B7" />
+                      </BarChart>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-5 grid-margin stretch-card">
+                  <div className="card bar-chart-cell-pie">
+                    <div className="card-body">
+                      <h4 className="card-title">Gráfica tareas completas/incompletas</h4>
+                      <div className="pie-chart-css">
+                      <PieChart width={300} height={300}>
+                    <Pie dataKey="value" isAnimationActive={false} data={data} cx={200} cy={200} outerRadius={80} label />
+                    <Legend />
                     <Tooltip />
                   </PieChart>
-                  <BarChart
-                    width={500}
-                    height={300}
-                    data={this.getStateData(this.state.user.actualStates)}
-                    margin={{
-                      top: 5, right: 30, left: 20, bottom: 5,
-                    }}
-                  >
-                    <CartesianGrid strokeDasharray="1 4" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="Mal" fill="#DC143C" />
-                    <Bar dataKey="Regular" fill="#F0E68C" />
-                    <Bar dataKey="Bien" fill="#00BFFF" />
-                    <Bar dataKey="Muy bien" fill="#228B22" />
-                  </BarChart>
-
-
-
+                  </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

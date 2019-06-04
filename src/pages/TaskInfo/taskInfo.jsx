@@ -57,7 +57,8 @@ export default class seeWork extends Component {
                 this.setState({
                     name: infoUser.name,
                     googleId: infoUser.googleId,
-                    room: infoUser.room
+                    room: infoUser.room,
+                    rol : infoUser.rol
                 })
             }
         }
@@ -126,13 +127,19 @@ export default class seeWork extends Component {
         })
     }
 
+    deleteButton = _ =>{
+        if (this.state.rol === "Profesor") {
+            return <button type="button" className="btn btn-danger" onClick={this.deteleTask}>Borrar tarea</button>
+          }
+    }
+
     render() {
 
         let toggle;
         if (this.state.completed !== undefined) {
             toggle =
-                <label >
-                    <h2>Completed: </h2>
+                <label>
+                    ¿Completado?
                     <Toggle
                         defaultChecked={this.state.completed ? true : false}
                         onChange={this.updateCompleteStatus} />
@@ -140,29 +147,80 @@ export default class seeWork extends Component {
         }
 
         return (
-            <div>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-2 col-sm-4 sidebar1">
-                            <MenuHOC onLogout={this.logoutFather} />
-                        </div>
-                        <div className="col-md-10 col-sm-8 main-content">
-                            <h2>ID: {this.state.id}</h2>
-                            <h2>Titulo: {this.state.title}</h2>
-                            <h2>description: {this.state.description}</h2>
-                            <h2>Fecha: {this.state.date}</h2>
-                            <h2>Tokens:  <InputNumber min={0} max={100} step={1} value={this.state.totalTokens} onChange={this.updateTaskTokens} enableMobileNumericKeyboard /></h2>
-                            <h2>{this.state.completed}</h2>
-                            {toggle}
-                            <h2>Estado actual: {this.getActualState()}</h2>
 
-                            <Link to="/seeWork"><button type="button" className="btn btn-primary">Ver Tareas</button></Link>
-                            <p></p>
-                            <button type="button" className="btn btn-danger" onClick={this.deteleTask}>Borrar tarea</button>
+            <div>
+                <div className="container-scroller">
+                    <div className="container-fluid page-body-wrapper">
+                        <nav className="sidebar sidebar-offcanvas" id="sidebar">
+                            <MenuHOC onLogout={this.logoutFather} />
+                        </nav>
+                        <div className="main-panel" style={{ overflow: 'auto' }}>
+                            <div className="content-wrapper">
+                                <div className="page-header">
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12 grid-margin stretch-card">
+                                        <div className="card">
+                                            <div className="card-body add-style">
+                                                
+                                                <h1 className="card-title">{this.state.title}</h1>
+                                                <p className="card-description">
+                                                    <div className="row">
+                                                        <div className="col-sm-12">
+                                                            <div className="inputBox">
+                                                                Fecha límite: {this.state.date}
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </p>
+                                                <hr />
+                                                <div className="row">
+                                                    {this.state.description}
+                                                </div>
+                                                <hr />
+                                                <p>Tokens:  <InputNumber min={0} max={100} step={1} value={this.state.totalTokens} onChange={this.updateTaskTokens} enableMobileNumericKeyboard /></p>
+                                                <p>{toggle}</p>
+                                                <p>Estado actual: {this.getActualState()}</p>
+                                                <p>{this.state.completed}</p>
+
+                                                <Link to="/seeWork"><button type="button" className="btn btn-gradient-primary mr-2">Ver Tareas</button></Link>
+                                                {this.deleteButton}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            // <div>
+            //     <div className="container-fluid">
+            //         <div className="row">
+            //             <div className="col-md-2 col-sm-4 sidebar1">
+            //                 <MenuHOC onLogout={this.logoutFather} />
+            //             </div>
+            //             <div className="col-md-10 col-sm-8 main-content">
+            //                 <h2>ID: {this.state.id}</h2>
+            //                 <h2>Titulo: {this.state.title}</h2>
+            //                 <h2>description: {this.state.description}</h2>
+            //                 <h2>Fecha: {this.state.date}</h2>
+            //                 <h2>Tokens:  <InputNumber min={0} max={100} step={1} value={this.state.totalTokens} onChange={this.updateTaskTokens} enableMobileNumericKeyboard /></h2>
+            //                 <h2>{this.state.completed}</h2>
+            //                 {toggle}
+            //                 <h2>Estado actual: {this.getActualState()}</h2>
+
+            //                 <Link to="/seeWork"><button type="button" className="btn btn-primary">Ver Tareas</button></Link>
+            //                 <p></p>
+            //                 <button type="button" className="btn btn-danger" onClick={this.deteleTask}>Borrar tarea</button>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>
         )
     }
 }
