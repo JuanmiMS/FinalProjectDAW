@@ -122,51 +122,50 @@ export default class SeeUsers extends Component {
               <MenuHOC onLogout={this.logoutFather} />
             </nav>
             <div className="main-panel">
-
               <div className="row">
-              <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body  table-style">
-                  <h4 class="card-title">Striped Table</h4>
-                  <table class="table table-striped .table-bordered">
-                    <thead>
-                      <tr>
-                        <th>Usuario</th>
-                        <th> Nombre</th>
-                        <th>Progreso</th>
-                        <th>Tokens Totales</th>
-                        <th> Email</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.users.map((user, index) => (
-                      <tr>
-                        <td class="py-1">
-                          <img src={user.imageUrl} alt="image"/>
-                        </td>
-                        <td>
-                        <Link to={`/seeUser/${user.googleId}`} key={`carta` + index}>{user.name}</Link>
-                        </td>
-                        <td>
-                          <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" style={{width: "90%"}} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td>
-                          15
-                        </td>
-                        <td>
-                        {user.email}
-                        </td>
-                      </tr>
-                       ))}
-                    </tbody>
-                  </table>
+                <div className="col-lg-12 grid-margin stretch-card">
+                  <div className="card">
+                    <div className="card-body  table-style">
+                      <h4 className="card-title">Striped Table</h4>
+                      <table className="table table-striped .table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Usuario</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Progreso</th>
+                            <th>Tokens Totales</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {this.state.users.map((user, index) => (
+                            <tr key={`user` + index}>
+                              <td className="py-1">
+                                <img src={user.imageUrl} alt="image" />
+                              </td>
+                              <td>
+                                <Link to={`/seeUser/${user.googleId}`} >{user.name}</Link>
+                              </td>
+                              <td>
+                                <a href={`mailto:${user.email}`} target="_blank">{user.email}</a>
+                              </td>
+                              <td>
+                                <div className="progress">
+                                  <div className="progress-bar bg-warning" role="progressbar" style={{ width: "90%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                              </td>
+                              <td>
+                                15
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-                  {/* <div className="col-sm-4">
+              {/* <div className="col-sm-4">
                     <div className="thumbnail card">
                       <div className="caption card-body">
                         <h4 className="group card-title inner list-group-item-heading">
@@ -246,8 +245,8 @@ export default class SeeUsers extends Component {
             </div> */}
 
 
-        </div>
-        </div>
+            </div>
+          </div>
         </div>
       </div>
     )
