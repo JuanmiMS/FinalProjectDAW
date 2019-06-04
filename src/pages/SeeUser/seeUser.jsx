@@ -75,6 +75,7 @@ export default class SeeUsers extends Component {
   getStateData = info => {
     let data = []
     if (info !== undefined) {
+      
       data = [
         {
           Mal: info[0]
@@ -98,8 +99,8 @@ export default class SeeUsers extends Component {
   render() {
 
     const data = [
-      { name: 'Terminadas', value: this.state.user.taskFinished, fill: "#228B22" },
-      { name: 'Sin Terminar', value: 12 - this.state.user.taskFinished, fill: "#DC143C" }
+      { name: 'Terminadas', value: this.state.user.taskFinished, fill: "#24D0B7" },
+      { name: 'Sin Terminar', value: 12 - this.state.user.taskFinished, fill: "#ef6464" }
     ];
 
     return (

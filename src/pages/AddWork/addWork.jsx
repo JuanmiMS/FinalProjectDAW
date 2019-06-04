@@ -37,13 +37,13 @@ export default class addWork extends Component {
         this.props.history.push('/')
       }
       else {
-        if(this.state.name !== infoUser.name){
-        this.setState({
-          name: infoUser.name,
-          googleId: infoUser.googleId,
-          room : infoUser.room
-        })
-      }
+        if (this.state.name !== infoUser.name) {
+          this.setState({
+            name: infoUser.name,
+            googleId: infoUser.googleId,
+            room: infoUser.room
+          })
+        }
       }
     }
   }
@@ -62,16 +62,16 @@ export default class addWork extends Component {
       description: document.getElementById("description").value,
       authorName: this.state.name,
       authorGoogleId: this.state.googleId,
-      limitDate : this.state.date,
-      room : this.state.room
+      limitDate: this.state.date,
+      room: this.state.room
     }
 
-    console.log('work', work)
     axios.post("http://localhost:9000/api/works/add", { work })
       .then((response) => {
-        console.log("RESPUESTA:", response)
-      }).catch((err)=>{
-        console.log('err', err)
+        this.props.history.push('/taskInfo/5cf6a13d1a450d53c4e035d1')
+
+      }).catch((err) => {
+        alert("error al agregar la tarea")
       })
   }
 
@@ -90,79 +90,41 @@ export default class addWork extends Component {
             <nav className="sidebar sidebar-offcanvas" id="sidebar">
               <MenuHOC onLogout={this.logoutFather} />
             </nav>
-            <div className="main-panel">        
-        <div className="content-wrapper">
-          <div className="page-header">
-          </div>
-          <div className="row">
-            <div className="col-md-12 grid-margin stretch-card">
-              <div className="card">
-                <div className="card-body add-style">
-                  <h4 className="card-title">Agregar tarea</h4>
-                  <p className="card-description">
-                    Agregar una nueva tarea
-                  </p>
-                  <form className="forms-sample">
-                    <div className="form-group">
-                      <label for="exampleInputUsername1">Titulo</label>
-                      <input type="text" className="form-control" id="title" placeholder="Titulo" />
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleTextarea1">Enunciado</label>
-                      <textarea class="form-control" id="description" rows="40"></textarea>
-                    </div>
-                    <button onClick={this.addWork} className="btn btn-gradient-primary mr-2">Submit</button>
-                  </form>
+            <div className="main-panel" style={{ overflow: 'auto' }}>
+              <div className="content-wrapper">
+                <div className="page-header">
                 </div>
-              </div>
-            </div>
-{/* 
-              <div className="row">
-              <div className="container-fluid">
-                <div className="container">
-                  <div className="formBox">
-                    <form>
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <h1>Agregar nueva tarea</h1>
-                        </div>
-                      </div>
+                <div className="row">
+                  <div className="col-md-12 grid-margin stretch-card">
+                    <div className="card">
+                      <div className="card-body add-style">
+                        <h4 className="card-title">Agregar tarea</h4>
+                        <p className="card-description">
+                          <div className="row">
+                            <div className="col-sm-12">
+                              <div className="inputBox">
+                                Fecha límite: <DatePicker onChange={this.dateSelected} value={this.state.date} />
+                              </div>
+                            </div>
+                          </div>
+                        </p>
 
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <div className="inputBox ">
-                            <input type="text" id="title" placeholder="Titulo" className="input" />
-                          </div>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputUsername1">Titulo</label>
+                          <input type="text" className="form-control" id="title" placeholder="Titulo" />
                         </div>
-                      </div>
+                        <div className="form-group">
+                          <label htmlFor="exampleTextarea1">Enunciado</label>
+                          <textarea className="form-control" id="description" rows="35"></textarea>
+                        </div>
 
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <div className="inputBox">
-                            <textarea placeholder="Enunciado" id="description" className="input"></textarea>
-                          </div>
-                        </div>
+                        <button onClick={this.addWork} className="btn btn-gradient-primary mr-2">Submit</button>
                       </div>
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <div className="inputBox">
-                              Fecha límite: <DatePicker onChange={this.dateSelected} value={this.state.date}/>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <input onClick={this.addWork} className="button" defaultValue="Agregar tarea" />
-                        </div>
-                      </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div> */}
-          </div>
-          </div>
-          </div>
+            </div>
           </div>
         </div>
       </div>

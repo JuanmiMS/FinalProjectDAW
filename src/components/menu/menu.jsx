@@ -57,6 +57,24 @@ export default class Menu extends Component {
     this.props.onLogout()
   }
 
+  getAdminLinks = _ => {
+    if (this.state.rol === "Profesor") {
+      return <div>
+      <li className="nav-item">
+        <Link to="/seeUsers" className="nav-link" href="pages/icons/mdi.html">
+          <span className="menu-title">Alumnos</span>
+        </Link>
+      </li>
+
+      <li className="nav-item sidebar-actions">
+          <Link to="/addWork">
+            <button className="btn btn-block btn-lg btn-gradient-primary mt-4">Agregar tarea</button>
+          </Link>
+      </li>
+      </div>
+    }
+  }
+
   render() {
     return (
       <div>
@@ -93,17 +111,7 @@ export default class Menu extends Component {
                   <span className="menu-title">Ver tareas</span>
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link to="/seeUsers" className="nav-link" href="pages/icons/mdi.html">
-                  <span className="menu-title">Alumnos</span>
-                </Link>
-              </li>
-
-              <li className="nav-item sidebar-actions">
-                  <Link to="/addWork">
-                    <button className="btn btn-block btn-lg btn-gradient-primary mt-4">Agregar tarea</button>
-                  </Link>
-              </li>
+              {this.getAdminLinks()}
             </ul>
       </div>
     )

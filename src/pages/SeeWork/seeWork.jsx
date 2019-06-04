@@ -53,10 +53,6 @@ export default class seeWork extends Component {
         else {
             let infoUser = jwt.verify(localStorage.getItem('SessionToken'), config.jwtSecret)
 
-            if (infoUser.rol !== "Profesor") {
-                this.props.history.push('/')
-            }
-            else {
                 if (this.state.name !== infoUser.name) {
                     this.setState({
                         name: infoUser.name,
@@ -64,7 +60,7 @@ export default class seeWork extends Component {
                         room: infoUser.room
                     })
                 }
-            }
+            
         }
     }
 
@@ -87,10 +83,7 @@ export default class seeWork extends Component {
         return isComplete ? "card bg-gradient-success card-img-holder text-white" : "card bg-gradient-danger card-img-holder text-white"
     }
 
-
     render() {
-
-
         return (
 
             <div>
@@ -102,11 +95,8 @@ export default class seeWork extends Component {
                         <div className="main-panel">
                             <div className="content-wrapper">
                                 <div className="row">
-                                    
                                     {this.state.data.map((task, index) => (
-                                        
-                                        <div className="col-4 stretch-card grid-margin">
-                                            {/* <div className="card bg-gradient-success card-img-holder text-white"> */}
+                                        <div key={index} className="col-4 stretch-card grid-margin">
                                             <div className={this.isFinished(task.completed)}>
                                                 <div className="card-body">
                                                     <img src="images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
@@ -122,7 +112,6 @@ export default class seeWork extends Component {
                                                 </div>
                                             </div>
                                             </div>
-                                       
                                     ))}
                                 </div>
                             </div>
@@ -130,50 +119,6 @@ export default class seeWork extends Component {
                     </div>
                 </div>
             </div>
-
-
-            /* <div>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-2 col-sm-4 sidebar1">
-                            <MenuHOC onLogout={this.logoutFather} />
-                        </div>
-                        <div className="col-md-10 col-sm-8 main-content">
-                            <div className="container" style={{ marginTop: 50 }}>
-                                <div id="products">
-                                    <div className="row">
-
-                                    {this.state.data.map((task, index) => (
-                                        <Link to={`/taskInfo/${task.idWork}`} key={`carta` + index}>
-                                        <div id={`carta` + index}  className="col-4">
-                                            <div className="thumbnail card" style={{backgroundColor: this.isFinished(task.completed)}}>
-                                                <div className="caption card-body">
-                                                    <h4 className="group card-title inner list-group-item-heading">
-                                                        {task.title}</h4>
-                                                    <p className="group inner list-group-item-text">
-                                                        {this.formatText(task.description)}</p>
-                                                    <div className="row">
-                                                        <div className="col-xs-12 col-md-6">
-                                                            <p className="lead">
-                                                                Tokens: {task.totalTokens}
-                                                            </p>
-                                                            <p>
-                                                                DATE: {task.date}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </Link>
-                                    ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */
         )
     }
 }
