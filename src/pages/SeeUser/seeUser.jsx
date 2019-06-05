@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import Card from '../../components/card/card';
 const config = require('config')
 const jwt = require('jsonwebtoken')
 
@@ -114,40 +115,9 @@ export default class SeeUsers extends Component {
             <div className="main-panel">
 
               <div className="row">
-                <div className="col-md-4 stretch-card grid-margin">
-                  <div className="card bg-gradient-success card-img-holder text-white">
-                    <div className="card-body">
-                      <img src="../images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
-                      <h4 className="font-weight-normal mb-3 center-text">Tareas completadas
-                    <i className="mdi mdi-chart-line mdi-24px float-right"></i>
-                      </h4>
-                      <h2 className="mb-5 center-text">{this.state.user.taskFinished}</h2>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4 stretch-card grid-margin">
-                  <div className="card bg-gradient-danger card-img-holder text-white">
-                    <div className="card-body">
-                      <img src="../images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
-                      <h4 className="font-weight-normal mb-3 center-text">Tareas sin completar
-                    <i className="mdi mdi-bookmark-outline mdi-24px float-right"></i>
-                      </h4>
-                      <h2 className="mb-5 center-text">{this.state.user.totalTasks - this.state.user.taskFinished}</h2>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-md-4 stretch-card grid-margin">
-                  <div className="card bg-gradient-info card-img-holder text-white">
-                    <div className="card-body">
-                      <img src="../images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
-                      <h4 className="font-weight-normal mb-3 center-text">Tokens totales
-                    <i className="mdi mdi-diamond mdi-24px float-right center-text"></i>
-                      </h4>
-                      <h2 className="mb-5 center-text">{this.state.user.totalTokens}</h2>
-                    </div>
-                  </div>
-                </div>
+                <Card title={'Tareas completadas'} type={'success'} info={this.state.user.taskFinished} />
+                <Card title={'Tareas sin completar'} type={'danger'} info={this.state.totalTasks - this.state.user.taskFinished} />
+                <Card title={'Tokens totales'} type={'info'} info={this.state.user.totalTokens} />
               </div>
 
               <div className="row">
