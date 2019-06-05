@@ -104,7 +104,7 @@ export default class seeWork extends Component {
     }
 
     getActualState = _ => {
-        return <select value={this.state.actualState} onChange={this.changeOption} id="actualState">
+        return <select className="form-control" style={{width: '50vh'}} value={this.state.actualState} onChange={this.changeOption} id="actualState">
             <option value="0">0 - Perdido</option>
             <option value="1">1 - Con dificultades</option>
             <option value="2">2 - Progresando con algunas dificultades</option>

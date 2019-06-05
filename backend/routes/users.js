@@ -178,6 +178,7 @@ router.post("/userInfo", (req, res) => {
         let totalTasks = results.length
         let taskFinished = 0
         let totalTokens = 0
+        let unfinishedTasks = 0
         let actualStates = [0,0,0,0]
         let userName = results[0].name
         let imageUrl= results[0].imageUrl
@@ -193,7 +194,8 @@ router.post("/userInfo", (req, res) => {
             result.actualState === 3 ? actualStates[3]++ : null
 
         })
-        res.send({totalTasks, taskFinished, totalTokens, actualStates, userName, imageUrl})
+        unfinishedTasks = totalTasks-taskFinished
+        res.send({totalTasks, taskFinished, totalTokens, unfinishedTasks, actualStates, userName, imageUrl})
       });
 })
 
@@ -206,6 +208,7 @@ router.post("/allUserInfo", (req, res) => {
         let totalTasks = results.length
         let taskFinished = 0
         let totalTokens = 0
+        let unfinishedTasks = 0
         let actualStates = [0,0,0,0]
         
         results.forEach((result)=>{
@@ -219,7 +222,8 @@ router.post("/allUserInfo", (req, res) => {
             result.actualState === 3 ? actualStates[3]++ : null
 
         })
-        res.send({totalTasks, taskFinished, totalTokens, actualStates})
+        unfinishedTasks = totalTasks-taskFinished
+        res.send({totalTasks, taskFinished, totalTokens, unfinishedTasks, actualStates})
       });
 })
 

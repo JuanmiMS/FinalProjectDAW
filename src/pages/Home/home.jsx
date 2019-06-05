@@ -6,6 +6,9 @@ import {
 import axios from 'axios'
 // const config = require('config')
 import './home.css'
+import Card from '../../components/card/card';
+import BarChartHOC from '../../components/graphs/bar';
+import PieChartHOC from '../../components/graphs/pie';
 const jwt = require('jsonwebtoken')
 
 export default class Home extends Component {
@@ -32,13 +35,14 @@ export default class Home extends Component {
       axios.post("http://juanmi.ovh:9000/api/users/userInfo", { data })
         .then((response) => {
 
-          const { taskFinished, totalTasks, totalTokens, actualStates } = response.data
+          const { taskFinished, totalTasks, totalTokens, actualStates, unfinishedTasks } = response.data
           this.setState({
             room: infoUser.room,
             taskFinished,
             totalTasks,
             totalTokens,
-            actualStates
+            actualStates,
+            unfinishedTasks
           }, () => {
 
             data = { userId: this.state.googleId, room: this.state.room }
@@ -84,35 +88,11 @@ export default class Home extends Component {
   }
 
 
-  getStateData = info => {
-    let data = []
-    if (info !== undefined) {
-      data = [
-        {
-          Mal: info[0]
-        },
-        {
-          Regular: info[1]
-        },
-        {
-          Bien: info[2]
-        },
-        {
-          "Muy bien": info[3]
-        }
-      ]
 
-      return data
-    }
-
-  }
 
   render() {
 
-    const data = [
-      { name: 'Terminadas', value: this.state.taskFinished, fill: "#24D0B7" },
-      { name: 'Sin Terminar', value: this.state.totalTasks - this.state.taskFinished, fill: "#ef6464" }
-    ];
+    
 
     return (
       <div>
@@ -124,89 +104,18 @@ export default class Home extends Component {
             <div className="main-panel">
 
               <div className="row">
-                <div className="col-md-4 stretch-card grid-margin">
-                  <div className="card bg-gradient-success card-img-holder text-white">
-                    <div className="card-body">
-                      <img src="images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
-                      <h4 className="font-weight-normal mb-3 center-text">Tareas completadas
-                    <i className="mdi mdi-chart-line mdi-24px float-right"></i>
-                      </h4>
-                      <h2 className="mb-5 center-text">{this.state.taskFinished}</h2>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4 stretch-card grid-margin">
-                  <div className="card bg-gradient-danger card-img-holder text-white">
-                    <div className="card-body">
-                      <img src="images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
-                      <h4 className="font-weight-normal mb-3 center-text">Tareas sin completar
-                    <i className="mdi mdi-bookmark-outline mdi-24px float-right"></i>
-                      </h4>
-                      <h2 className="mb-5 center-text">{this.state.totalTasks - this.state.taskFinished}</h2>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="col-md-4 stretch-card grid-margin">
-                  <div className="card bg-gradient-info card-img-holder text-white">
-                    <div className="card-body">
-                      <img src="images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
-                      <h4 className="font-weight-normal mb-3 center-text">Tokens totales
-                    <i className="mdi mdi-diamond mdi-24px float-right center-text"></i>
-                      </h4>
-                      <h2 className="mb-5 center-text">{this.state.totalTokens}</h2>
-                    </div>
-                  </div>
-                </div>
+                <Card title={'Tareas completadas'} type={'success'} info={this.state.taskFinished} />
+                <Card title={'Tareas sin completar'} type={'danger'} info={this.state.unfinishedTasks} />
+                <Card title={'Tokens totales'} type={'info'} info={this.state.totalTokens} />
+
               </div>
 
               <div className="row">
-                <div className="col-md-5 grid-margin stretch-card">
-                  <div className="card bar-chart-cell">
-                    <div className="card-body">
-                      <div className="clearfix">
-                        <h4 className="card-title float-left">Estado de las tareas</h4>
-                        <div id="visit-sale-chart-legend" className="rounded-legend legend-horizontal legend-top-right float-right">
-                        
-                        </div>
-                        <BarChart
-                        width={500}
-                        height={300}
-                        data={this.getStateData(this.state.actualStates)}
-                        margin={{
-                          top: 5, right: 30, left: 20, bottom: 5,
-                        }}
-                      >
-                        <CartesianGrid strokeDasharray="1 4" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="Mal" fill="#ef6464" />
-                        <Bar dataKey="Regular" fill="#FFBE96" />
-                        <Bar dataKey="Bien" fill="#2892E6" />
-                        <Bar dataKey="Muy bien" fill="#24D0B7" />
-                      </BarChart>
-                      </div>
-                      
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-5 grid-margin stretch-card">
-                  <div className="card bar-chart-cell-pie">
-                    <div className="card-body">
-                      <h4 className="card-title">Gráfica tareas completas/incompletas</h4>
-                      <div className="pie-chart-css">
-                      <PieChart width={300} height={300}>
-                    <Pie dataKey="value" isAnimationActive={false} data={data} cx={200} cy={200} outerRadius={80} label />
-                    <Legend />
-                    <Tooltip />
 
-                  </PieChart>
-                  </div>
-                    </div>
-                  </div>
-                </div>
+                <BarChartHOC states={this.state.actualStates}/>
+                <PieChartHOC taskFinished={this.state.taskFinished} unFinished={this.state.unfinishedTasks}/>
+                
               </div>
             </div>
           </div>
