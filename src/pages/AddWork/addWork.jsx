@@ -68,7 +68,7 @@ export default class addWork extends Component {
 
     axios.post("http://localhost:9000/api/works/add", { work })
       .then((response) => {
-        this.props.history.push('/taskInfo/5cf6a13d1a450d53c4e035d1')
+        this.props.history.push('/seeWork')
 
       }).catch((err) => {
         alert("error al agregar la tarea")

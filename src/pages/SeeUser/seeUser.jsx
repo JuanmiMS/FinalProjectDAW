@@ -6,6 +6,8 @@ import {
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import Card from '../../components/card/card';
+import BarChartHOC from '../../components/graphs/bar';
+import PieChartHOC from '../../components/graphs/pie';
 const config = require('config')
 const jwt = require('jsonwebtoken')
 
@@ -98,12 +100,6 @@ export default class SeeUsers extends Component {
   }
 
   render() {
-
-    const data = [
-      { name: 'Terminadas', value: this.state.user.taskFinished, fill: "#24D0B7" },
-      { name: 'Sin Terminar', value: 12 - this.state.user.taskFinished, fill: "#ef6464" }
-    ];
-
     return (
 
 <div>
@@ -116,56 +112,16 @@ export default class SeeUsers extends Component {
 
               <div className="row">
                 <Card title={'Tareas completadas'} type={'success'} info={this.state.user.taskFinished} />
-                <Card title={'Tareas sin completar'} type={'danger'} info={this.state.totalTasks - this.state.user.taskFinished} />
+                <Card title={'Tareas sin completar'} type={'danger'} info={this.state.user.unfinishedTasks} />
                 <Card title={'Tokens totales'} type={'info'} info={this.state.user.totalTokens} />
               </div>
 
               <div className="row">
-                <div className="col-md-5 grid-margin stretch-card">
-                  <div className="card bar-chart-cell">
-                    <div className="card-body">
-                      <div className="clearfix">
-                        <h4 className="card-title float-left">Estado de las tareas</h4>
-                        <div id="visit-sale-chart-legend" className="rounded-legend legend-horizontal legend-top-right float-right">
-                        
-                        </div>
-                        <BarChart
-                        width={500}
-                        height={300}
-                        data={this.getStateData(this.state.user.actualStates)}
-                        margin={{
-                          top: 5, right: 30, left: 20, bottom: 5,
-                        }}
-                      >
-                        <CartesianGrid strokeDasharray="1 4" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="Mal" fill="#ef6464" />
-                        <Bar dataKey="Regular" fill="#FFBE96" />
-                        <Bar dataKey="Bien" fill="#2892E6" />
-                        <Bar dataKey="Muy bien" fill="#24D0B7" />
-                      </BarChart>
-                      </div>
-                      
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-5 grid-margin stretch-card">
-                  <div className="card bar-chart-cell-pie">
-                    <div className="card-body">
-                      <h4 className="card-title">Gráfica tareas completas/incompletas</h4>
-                      <div className="pie-chart-css">
-                      <PieChart width={300} height={300}>
-                    <Pie dataKey="value" isAnimationActive={false} data={data} cx={200} cy={200} outerRadius={80} label />
-                    <Legend />
-                    <Tooltip />
-                  </PieChart>
-                  </div>
-                    </div>
-                  </div>
-                </div>
+
+
+              <BarChartHOC states={this.state.user.actualStates}/>
+              <PieChartHOC taskFinished={this.state.user.taskFinished} unFinished={this.state.user.unfinishedTasks}/>
+
               </div>
             </div>
           </div>
