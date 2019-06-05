@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios'
 import './seeUsers.css'
 import Card from '../../components/card/card';
+import BarChartHOC from '../../components/graphs/bar';
 const config = require('config')
 const jwt = require('jsonwebtoken')
 
@@ -91,8 +92,8 @@ export default class SeeUsers extends Component {
   getIncompleteTask = () => {
     console.log("this.state.user", this.state.user)
     console.log("this.state.totalTasks", this.state.user && this.state.totalTasks)
-    console.log("this.state.user.taskFinished", this.state.user&& this.state.user.taskFinished)
-    console.log("this.state.totalTasks - this.state.user.taskFinished", this.state.user && this.state.totalTasks - this.state.user&& this.state.user.taskFinished)
+    console.log("this.state.user.taskFinished", this.state.user && this.state.user.taskFinished)
+    console.log("this.state.totalTasks - this.state.user.taskFinished", this.state.user && this.state.totalTasks - this.state.user && this.state.user.taskFinished)
     return 8
   }
 
@@ -140,85 +141,57 @@ export default class SeeUsers extends Component {
 
 
               <div className="row">
-                <div className="col-md-5 grid-margin stretch-card">
-                  <div className="card bar-chart-cell">
-                    <div className="card-body">
-                      <div className="clearfix">
-                        <h4 className="card-title float-left">Estado de las tareas</h4>
-                        <div id="visit-sale-chart-legend" className="rounded-legend legend-horizontal legend-top-right float-right">
-
-                        </div>
-                        <BarChart
-                          width={500}
-                          height={300}
-                          data={this.getStateData(this.state.user && this.state.user.actualStates)}
-                          margin={{
-                            top: 5, right: 30, left: 20, bottom: 5,
-                          }}
-                        >
-                          <CartesianGrid strokeDasharray="1 4" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip />
-                          <Legend />
-                          <Bar dataKey="Mal" fill="#ef6464" />
-                          <Bar dataKey="Regular" fill="#FFBE96" />
-                          <Bar dataKey="Bien" fill="#2892E6" />
-                          <Bar dataKey="Muy bien" fill="#24D0B7" />
-                        </BarChart>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
+                <BarChartHOC states={this.state.user&& this.state.user.actualStates} />
               </div>
 
-              <div className="row">
-                <div className="col-lg-12 grid-margin stretch-card">
-                  <div className="card" >
-                    <div className="card-body table-style" >
-                      <h4 className="card-title">Alumnos</h4>
-                      <table className="table table-striped .table-bordered" >
-                        <thead>
-                          <tr>
-                            <th>Usuario</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Progreso</th>
-                            <th>Tokens Totales</th>
+            
+
+            <div className="row">
+              <div className="col-lg-12 grid-margin stretch-card">
+                <div className="card" >
+                  <div className="card-body table-style" >
+                    <h4 className="card-title">Alumnos</h4>
+                    <table className="table table-striped .table-bordered" >
+                      <thead>
+                        <tr>
+                          <th>Usuario</th>
+                          <th>Nombre</th>
+                          <th>Email</th>
+                          <th>Progreso</th>
+                          <th>Tokens Totales</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.state.users.map((user, index) => (
+                          <tr key={`user` + index}>
+                            <td className="py-1">
+                              <img src={user.imageUrl} alt="image" />
+                            </td>
+                            <td>
+                              <Link to={`/seeUser/${user.googleId}`} >{user.name}</Link>
+                            </td>
+                            <td>
+                              <a href={`mailto:${user.email}`} target="_blank">{user.email}</a>
+                            </td>
+                            <td>
+                              <div className="progress">
+                                <div className="progress-bar bg-warning" role="progressbar" style={{ width: "90%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                            </td>
+                            <td>
+                              15
+                              </td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {this.state.users.map((user, index) => (
-                            <tr key={`user` + index}>
-                              <td className="py-1">
-                                <img src={user.imageUrl} alt="image" />
-                              </td>
-                              <td>
-                                <Link to={`/seeUser/${user.googleId}`} >{user.name}</Link>
-                              </td>
-                              <td>
-                                <a href={`mailto:${user.email}`} target="_blank">{user.email}</a>
-                              </td>
-                              <td>
-                                <div className="progress">
-                                  <div className="progress-bar bg-warning" role="progressbar" style={{ width: "90%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                              </td>
-                              <td>
-                                15
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     )
   }
