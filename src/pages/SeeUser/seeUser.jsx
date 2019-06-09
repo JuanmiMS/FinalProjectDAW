@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
-import {
-  PieChart, Pie, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar
-} from 'recharts';
-import { Link } from 'react-router-dom';
+
 import axios from 'axios'
 import Card from '../../components/card/card';
 import BarChartHOC from '../../components/graphs/bar';
 import PieChartHOC from '../../components/graphs/pie';
-const config = require('config')
+import userProfile from '../../components/userProfile/userProfile';
+// const config = require('config')
 const jwt = require('jsonwebtoken')
 
 export default class SeeUsers extends Component {
@@ -78,7 +76,7 @@ export default class SeeUsers extends Component {
   getStateData = info => {
     let data = []
     if (info !== undefined) {
-      
+
       data = [
         {
           Mal: info[0]
@@ -102,13 +100,16 @@ export default class SeeUsers extends Component {
   render() {
     return (
 
-<div>
+      <div>
         <div className="container-scroller">
           <div className="container-fluid page-body-wrapper">
             <nav className="sidebar sidebar-offcanvas" id="sidebar">
               <MenuHOC onLogout={this.logoutFather} />
             </nav>
             <div className="main-panel">
+              <div className="row">
+                <userProfile userImage={this.state.user.imageUrl} userName={this.state.user.userName} />
+              </div>
 
               <div className="row">
                 <Card title={'Tareas completadas'} type={'success'} info={this.state.user.taskFinished} />
@@ -119,8 +120,8 @@ export default class SeeUsers extends Component {
               <div className="row">
 
 
-              <BarChartHOC states={this.state.user.actualStates}/>
-              <PieChartHOC taskFinished={this.state.user.taskFinished} unFinished={this.state.user.unfinishedTasks}/>
+                <BarChartHOC states={this.state.user.actualStates} />
+                <PieChartHOC taskFinished={this.state.user.taskFinished} unFinished={this.state.user.unfinishedTasks} />
 
               </div>
             </div>

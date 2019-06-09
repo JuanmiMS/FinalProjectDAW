@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
-import {
-  Bar, Pie, PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart
-} from 'recharts';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import './seeUsers.css'
 import Card from '../../components/card/card';
 import BarChartHOC from '../../components/graphs/bar';
-const config = require('config')
+// const config = require('config')
 const jwt = require('jsonwebtoken')
 
 export default class SeeUsers extends Component {
@@ -165,13 +162,13 @@ export default class SeeUsers extends Component {
                         {this.state.users.map((user, index) => (
                           <tr key={`user` + index}>
                             <td className="py-1">
-                              <img src={user.imageUrl} alt="image" />
+                              <img src={user.imageUrl} alt="profile"/>
                             </td>
                             <td>
                               <Link to={`/seeUser/${user.googleId}`} >{user.name}</Link>
                             </td>
                             <td>
-                              <a href={`mailto:${user.email}`} target="_blank">{user.email}</a>
+                              <a href={`mailto:${user.email}`} target="_blank" rel="noopener noreferrer">{user.email}</a>
                             </td>
                             <td>
                               <div className="progress">
