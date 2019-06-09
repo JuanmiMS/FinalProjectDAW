@@ -8,7 +8,7 @@ export default class Card extends Component {
             <div className="col-md-4 stretch-card grid-margin">
                 <div className={`card bg-gradient-${this.props.type} card-img-holder text-white`}>
                     <div className="card-body">
-                        <img src="../images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
+                        <img src="../images/dashboard/circle.svg" className="card-img-absolute" alt="circle" />
                         <h4 className="font-weight-normal mb-3 center-text">{this.props.title}
                             <i className="mdi mdi-chart-line mdi-24px float-right"></i>
                         </h4>

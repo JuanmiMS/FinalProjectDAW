@@ -68,6 +68,7 @@ router.post('/seeOwnTasks', (req, res) => {
                 }
                 )
             }).then(()=>{
+                // console.log('taskMap :', taskMap);
                 res.send(taskMap)
             }
             ).catch((err=>{

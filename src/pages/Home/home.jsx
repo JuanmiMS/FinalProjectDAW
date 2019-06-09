@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import MenuHOC from '../../components/menu/menu';
-import {
-  Pie, PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Bar, BarChart
-} from 'recharts';
 import axios from 'axios'
 // const config = require('config')
 import './home.css'
@@ -70,8 +67,7 @@ export default class Home extends Component {
     )
 
   }
-
-  componentDidUpdate() {
+    componentDidUpdate() {
     this.logout()
   }
 
