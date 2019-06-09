@@ -99,7 +99,7 @@ export default class addWork extends Component {
                     <div className="card">
                       <div className="card-body add-style">
                         <h4 className="card-title">Agregar tarea</h4>
-                        <p className="card-description">
+                        <div className="card-description">
                           <div className="row">
                             <div className="col-sm-12">
                               <div className="inputBox">
@@ -107,7 +107,7 @@ export default class addWork extends Component {
                               </div>
                             </div>
                           </div>
-                        </p>
+                        </div>
 
                         <div className="form-group">
                           <label htmlFor="exampleInputUsername1">Titulo</label>
