@@ -5,7 +5,7 @@ import axios from 'axios'
 import Card from '../../components/card/card';
 import BarChartHOC from '../../components/graphs/bar';
 import PieChartHOC from '../../components/graphs/pie';
-import userProfile from '../../components/userProfile/userProfile';
+import UserProfile from '../../components/userProfile/userProfile';
 // const config = require('config')
 const jwt = require('jsonwebtoken')
 
@@ -108,7 +108,7 @@ export default class SeeUsers extends Component {
             </nav>
             <div className="main-panel">
               <div className="row">
-                <userProfile userImage={this.state.user.imageUrl} userName={this.state.user.userName} />
+                <UserProfile userImage={this.state.user.imageUrl} userName={this.state.user.userName} />
               </div>
 
               <div className="row">
