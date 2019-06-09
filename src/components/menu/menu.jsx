@@ -61,7 +61,7 @@ export default class Menu extends Component {
     if (this.state.rol === "Profesor") {
       return <div>
       <li className="nav-item">
-        <Link to="/seeUsers" className="nav-link" href="pages/icons/mdi.html">
+        <Link to="/seeUsers" className="nav-link">
           <span className="menu-title">Alumnos</span>
         </Link>
       </li>
@@ -80,7 +80,7 @@ export default class Menu extends Component {
       <div>
             <ul className="nav">
               <li className="nav-item nav-profile">
-                <a href="#" className="nav-link">
+                <Link to="/" className="nav-link" >
                   <div className="nav-profile-image">
                     <img src={this.state.imageUrl} alt="profile" />
                     <span className="login-status online"></span>
@@ -89,7 +89,7 @@ export default class Menu extends Component {
                     <span className="font-weight-bold mb-2">{this.state.name}</span>
                     <span className="text-secondary text-small">{this.state.rol}</span>
                   </div>
-                </a>
+                </Link>
                   <button onClick={this.logout} className="btn btn-sm btn-danger">logout</button>
               </li>
               <li className="nav-item sidebar-actions">

@@ -99,7 +99,7 @@ export default class seeWork extends Component {
                                         <div key={index} className="col-4 stretch-card grid-margin">
                                             <div className={this.isFinished(task.completed)}>
                                                 <div className="card-body">
-                                                    <img src="images/dashboard/circle.svg" className="card-img-absolute" alt="circle-image" />
+                                                    <img src="images/dashboard/circle.svg" className="card-img-absolute" alt="circle"/>
                                                     <h2 className="font-weight-normal mb-3">{task.title}
                                                             <i className="mdi mdi-diamond mdi-24px float-right"></i>
                                                     </h2>
