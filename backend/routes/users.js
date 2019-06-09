@@ -180,8 +180,8 @@ router.post("/userInfo", (req, res) => {
         let totalTokens = 0
         let unfinishedTasks = 0
         let actualStates = [0,0,0,0]
-        let userName = results[0].name
-        let imageUrl= results[0].imageUrl
+        let userName = results&& results[0].name
+        let imageUrl= results&& results[0].imageUrl
         
         results.forEach((result)=>{
             result.completed ? taskFinished++ : ""
