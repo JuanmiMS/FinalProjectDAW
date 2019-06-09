@@ -30,7 +30,7 @@ export default class SeeUsers extends Component {
           userId: infoUser.googleId,
           users: response.data
         }, () => {
-          console.log('this.stateUSERS', this.state)
+          // console.log('this.stateUSERS', this.state)
         })
 
       }).catch((error) => {
@@ -86,16 +86,20 @@ export default class SeeUsers extends Component {
   }
 
 
-  getIncompleteTask = () => {
-    console.log("this.state.user", this.state.user)
-    console.log("this.state.totalTasks", this.state.user && this.state.totalTasks)
-    console.log("this.state.user.taskFinished", this.state.user && this.state.user.taskFinished)
-    console.log("this.state.totalTasks - this.state.user.taskFinished", this.state.user && this.state.totalTasks - this.state.user && this.state.user.taskFinished)
-    return 8
+  getIncompleteTask = userId => {
+    let randomNum = Math.floor((Math.random() * 100) + 1)
+    let typeBar = ''
+
+    if (randomNum >= 75) {typeBar = 'bg-success'}
+    if (randomNum >= 40 && randomNum < 75) {typeBar = 'bg-warning'}
+    if (randomNum < 40) {typeBar = 'bg-danger'}
+    return <div className={`progress-bar ${typeBar}`} role="progressbar" style={{ width: randomNum+"%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+  }
+  getTotalTokens = user => {
+   return Math.floor((Math.random() * 100) + 1);
   }
 
   getStateData = info => {
-    console.log('info :', info);
     let data = []
     if (info !== undefined) {
       data = [
@@ -112,7 +116,6 @@ export default class SeeUsers extends Component {
           "Muy bien": info[3]
         }
       ]
-
       return data
     }
   }
@@ -172,11 +175,11 @@ export default class SeeUsers extends Component {
                             </td>
                             <td>
                               <div className="progress">
-                                <div className="progress-bar bg-warning" role="progressbar" style={{ width: "90%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                {this.getIncompleteTask(user)}
                               </div>
                             </td>
                             <td>
-                              15
+                             {this.getTotalTokens(user)}
                               </td>
                           </tr>
                         ))}
