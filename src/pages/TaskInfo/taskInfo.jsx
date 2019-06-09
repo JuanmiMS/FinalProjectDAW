@@ -92,7 +92,7 @@ export default class seeWork extends Component {
             })
     }
     updateTaskTokens = _ => {
-        let tok = document.getElementsByClassName('css-11mdgg1-InputNumber')[0].value
+        let tok = document.getElementsByClassName('css-1j3bwou')[0].value
         this.setState({ totalTokens: tok })
         let data = { id: this.state.taskOwnId, tokens: tok }
         axios.post("http://juanmi.ovh:9000/api/ownTask/updateTaskTokens", { data })
