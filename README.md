@@ -17,13 +17,15 @@ Se recomienda utilizar nodemon en vez de node para desarrollar de una manera muc
 
 # Pasos para el despliegue a PRO
 
-1. npm install
-2. npm run build
-3. node backend/server.js
+1. Conectarse mediante ssh al servidor
+2. git pull de la rama master
+3. npm install
+4. npm run build
+5. pm2 restart server
 
 La app se desplegará en el puerto 9000
 
-# Q&A
+# Q&A en desarrollo
 - La app no puede acceder al servidor
 -> Si se está en la rama master, cambiar todas las referencias de juanmi.ovh:9000 a localhost:9000
 
