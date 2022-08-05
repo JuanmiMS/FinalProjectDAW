@@ -13,7 +13,7 @@
     "jsonwebtoken": "^8.5.1",
     "material-design-icons": "^3.0.1",
     "material-icons-react": "^1.0.4",
-    "mongoose": "^5.5.2",
+    "mongoose": "^5.7.5",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.8",
     "react-date-picker": "^7.5.1",
